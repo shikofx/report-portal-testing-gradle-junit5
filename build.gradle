@@ -18,6 +18,9 @@ plugins {
 group "${applicationGroup}"
 version "${applicationVersion}"
 
+targetCompatibility = 1.8
+sourceCompatibility = 1.8
+
 wrapper {
     gradleVersion = "${gradleWrapperVersion}"
 }
@@ -90,12 +93,24 @@ subprojects {
             includeTags "ui"
         }
     }
+
+    def unittests = tasks.register('unittests', Test).configure() {
+        useJUnitPlatform {
+            includeTags "unit"
+        }
+    }
 }
 
 sonarqube {
     properties {
         property "sonar.projectKey", "report-portal-testing-gradle-junit5"
+        property "sonar.sources", "src"
+        property "sonar.modules", "common,web-ui"
+        property "common.sonar.projectName", "Common"
+        property "web-ui.sonar.projectName", "Web-Ui"
         property "sonar.qualitygate.wait", true
+        property "sonar.issuesReport.html.enable", true
+        property "sonar.login", "admin"
+        property "sonar.password", "rfr3t2f_RFR_"
     }
 }
-
