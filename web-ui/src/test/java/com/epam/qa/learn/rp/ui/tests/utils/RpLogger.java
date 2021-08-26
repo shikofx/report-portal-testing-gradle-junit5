@@ -23,4 +23,14 @@ public class RpLogger {
         }
     }
 
+    public static void send1(Class<?> clazz, String level, String msg) {
+        final Logger LOGGER = LoggerFactory.getLogger(clazz);
+
+        switch (level){
+            case "info": LOGGER.info(msg); break;
+            case "error": LOGGER.error(msg); break;
+            case "debug": LOGGER.debug(msg); break;
+        }
+    }
+
 }

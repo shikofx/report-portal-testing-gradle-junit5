@@ -25,7 +25,7 @@ public class LoggerExtension
     @Override
     public void beforeAll(ExtensionContext context) throws Exception {
         testClassName = context.getDisplayName();
-        final String message = "Test class `%s`".formatted(context.getDisplayName());
+        final String message = String.format("Test class `%s`", context.getDisplayName());
         RpLogger.sendLaunch(getClass(), "info", message);
     }
 
@@ -38,7 +38,7 @@ public class LoggerExtension
         } else {
             testName = context.getParent().get().getDisplayName() + " -> " + context.getDisplayName();
         }
-        final String message = "Test `%s`".formatted(testName);
+        final String message = String.format("Test `%s`", testName);
         RpLogger.sendLaunch(getClass(), "info", message);
     }
 
@@ -48,8 +48,8 @@ public class LoggerExtension
 
     @Override
     public void testDisabled(ExtensionContext context, Optional<String> reason) {
-        final String message = "Test Disabled for test %s: with reason:- %s"
-            .formatted(context.getDisplayName(), reason.orElse("No reason"));
+        final String message = String.format("Test Disabled for test %s: with reason:- %s",
+            context.getDisplayName(), reason.orElse("No reason"));
         RpLogger.sendLaunch(getClass(), "error", message);
 
         testResultsStatus.add(TestResultStatus.DISABLED);
@@ -57,15 +57,15 @@ public class LoggerExtension
 
     @Override
     public void testSuccessful(ExtensionContext context) {
-        final String message = "Test Successful for test %s: ".formatted(context.getDisplayName());
+        final String message = String.format("Test Successful for test %s: ", context.getDisplayName());
         RpLogger.sendLaunch(getClass(), "info", message);
         testResultsStatus.add(TestResultStatus.SUCCESSFUL);
     }
 
     @Override
     public void testAborted(ExtensionContext context, Throwable cause) {
-        final String message = "Test Aborted for test %s: with reason:- %s"
-            .formatted(context.getDisplayName(), cause.getLocalizedMessage());
+        final String message = String.format("Test Aborted for test %s: with reason:- %s",
+                                             context.getDisplayName(), cause.getLocalizedMessage());
         RpLogger.sendLaunch(getClass(), "error", message);
 
         testResultsStatus.add(TestResultStatus.ABORTED);
@@ -73,8 +73,8 @@ public class LoggerExtension
 
     @Override
     public void testFailed(ExtensionContext context, Throwable cause) {
-        final String message = "Test Aborted for test %s: with reason:- %s"
-            .formatted(context.getDisplayName(), cause.getLocalizedMessage());
+        final String message = String.format("Test Aborted for test %s: with reason:- %s",
+                                             context.getDisplayName(), cause.getLocalizedMessage());
 
         RpLogger.sendLaunch(getClass(), "error", message);
 
@@ -86,8 +86,8 @@ public class LoggerExtension
         Map<TestResultStatus, Long> summary = testResultsStatus.stream()
             .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
 
-        final String message = "Test result summary for %s %s"
-            .formatted(context.getDisplayName(), summary.toString());
+        final String message = String.format("Test result summary for %s %s",
+                                             context.getDisplayName(), summary.toString());
 
         RpLogger.sendLaunch(getClass(), "error", message);
     }

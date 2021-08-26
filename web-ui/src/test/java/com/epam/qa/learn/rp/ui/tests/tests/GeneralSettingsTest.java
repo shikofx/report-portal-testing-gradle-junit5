@@ -7,7 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 @RpUITests
-public class GeneralSettingsTest extends PersonalPageTestBase {
+class GeneralSettingsTest extends PersonalPageTestBase {
 
     @BeforeEach
     void openGeneralSettings() {
@@ -21,6 +21,4 @@ public class GeneralSettingsTest extends PersonalPageTestBase {
         bot.personalPage().settings().getGeneralSettings()
             .verifyIsActive();
     }
-
-
 }

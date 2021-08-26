@@ -47,14 +47,14 @@ public class BrowserManager {
 
     private BrowserManager() {
         properties = new BrowserProperties();
-        LOGGER.info(
-            "Open ner browser instance: type = '%s'".formatted(getProperties().getCapabilities().getBrowserName()));
+        LOGGER.info(String.format("Open ner browser instance: type = '%s'",
+                                  getProperties().getCapabilities().getBrowserName()));
         driver = createDriver();
         driverWait = new WebDriverWait(driver, 30);
     }
 
     public static BrowserManager browser() {
-        if (instance.get().isEmpty()) {
+        if (!instance.get().isPresent()) {
             instance.set(Optional.of(new BrowserManager()));
         }
 

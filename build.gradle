@@ -18,12 +18,12 @@ plugins {
 group "${applicationGroup}"
 version "${applicationVersion}"
 
+targetCompatibility = 1.8
+sourceCompatibility = 1.8
+
 wrapper {
     gradleVersion = "${gradleWrapperVersion}"
 }
-
-targetCompatibility = 1.8
-sourceCompatibility = 1.8
 
 allprojects {
     repositories {
@@ -114,3 +114,6 @@ sonarqube {
         property "sonar.password", "rfr3t2f_RFR_"
     }
 }
+
+
+

@@ -17,7 +17,7 @@ public class ApplicationManager implements ChangableTimeout {
 
     public void goToTitlePage() {
         String titlePageUrl = BrowserManager.browser().getProperties().getMainPageUrl();
-        LOGGER.info("->> Go to the Report Portal page: %s.".formatted(titlePageUrl));
+        LOGGER.info(String.format("->> Go to the Report Portal page: %s.", titlePageUrl));
         BrowserManager.browser().getDriver().get(titlePageUrl);
     }
 
