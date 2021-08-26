@@ -1,0 +1,19 @@
+dependencies {
+    testImplementation group: 'org.seleniumhq.selenium',
+                       name: 'selenium-java',
+                       version: "${seleniumVersion}"
+
+    testImplementation group: 'com.codeborne',
+                       name: 'phantomjsdriver',
+                       version: "${phantomJSVersion}"
+
+    testImplementation group: 'net.sourceforge.htmlunit',
+                       name: 'webdriver',
+                       version: "${htmlUnitVersion}"
+
+    testImplementation group: 'ru.sbtqa',
+                       name: 'yandexdriver-bin',
+                       version: "${yandexVersion}"
+
+    implementation project(":common")
+}

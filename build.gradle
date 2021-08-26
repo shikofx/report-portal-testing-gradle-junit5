@@ -1,0 +1,101 @@
+buildscript {
+    apply plugin: 'java'
+
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+
+    dependencies {
+
+    }
+}
+
+plugins {
+    id "org.sonarqube" version "3.3"
+}
+
+group "${applicationGroup}"
+version "${applicationVersion}"
+
+wrapper {
+    gradleVersion = "${gradleWrapperVersion}"
+}
+
+allprojects {
+    repositories {
+        mavenCentral()
+        jcenter()
+        maven {
+            url "https://repo.gradle.org/gradle/libs-releases-local"
+        }
+    }
+
+    tasks.withType(Test) {
+        useJUnitPlatform()
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'idea'
+
+    group "${applicationGroup}"
+    version "${applicationVersion}"
+
+    sourceCompatibility = javaVersion
+    targetCompatibility = javaVersion
+
+    compileTestJava {
+        options.encoding = "${encoding}"
+    }
+
+
+    dependencies {
+        testImplementation group: 'org.junit.jupiter',
+                           name: 'junit-jupiter-params',
+                           version: "${junitJupiterVesion}"
+
+        testImplementation group: 'org.junit.jupiter',
+                           name: 'junit-jupiter-engine',
+                           version: "${junitJupiterVesion}"
+
+        testImplementation group: 'org.junit.platform',
+                           name: 'junit-platform-runner',
+                           version: "${junitPlatformVersion}"
+
+        testImplementation group: 'org.assertj',
+                           name: 'assertj-core',
+                           version: "${assertJVersion}"
+
+        testImplementation group: 'ch.qos.logback',
+                           name: 'logback-classic',
+                           version: "${logbackVersion}"
+
+        testImplementation group: 'org.slf4j',
+                           name: 'slf4j-log4j12',
+                           version: "${slf4jVersion}"
+
+        implementation group: 'com.epam.reportportal',
+                       name: 'agent-java-junit5',
+                       version: "${reportPortalVersion}"
+
+        implementation group: 'com.epam.reportportal',
+                       name: 'logger-java-logback',
+                       version: "${reportPortalVersion}"
+    }
+
+    def webtests = tasks.register('webtests', Test).configure() {
+        useJUnitPlatform {
+            includeTags "ui"
+        }
+    }
+}
+
+sonarqube {
+    properties {
+        property "sonar.projectKey", "report-portal-testing-gradle-junit5"
+        property "sonar.qualitygate.wait", true
+    }
+}
+

@@ -1,0 +1,17 @@
+# Log file
+*.log
+
+# Package Files #
+*.jar
+*.war
+
+# Project
+/.idea/
+/build/
+/build/sonar/
+
+# Gradle
+/.gradle/
+/gradle/
+/gradlew
+/gradlew.bat
