@@ -1,10 +1,6 @@
 # Log file
 *.log
 
-# Package Files #
-*.jar
-*.war
-
 # Project
 /.idea/
 /build/
@@ -12,6 +8,3 @@
 
 # Gradle
 /.gradle/
-/gradle/
-/gradlew
-/gradlew.bat
