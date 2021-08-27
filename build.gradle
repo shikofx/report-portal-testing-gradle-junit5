@@ -34,7 +34,7 @@ allprojects {
         }
     }
 
-    tasks.withType(Test) {
+    test {
         useJUnitPlatform()
     }
 }
@@ -101,6 +101,10 @@ subprojects {
     }
 }
 
+test {
+    useJUnitPlatform();
+}
+
 sonarqube {
     properties {
         property "sonar.projectKey", "report-portal-testing-gradle-junit5"
@@ -110,8 +114,7 @@ sonarqube {
         property "web-ui.sonar.projectName", "Web-Ui"
         property "sonar.qualitygate.wait", true
         property "sonar.issuesReport.html.enable", true
-        property "sonar.login", "admin"
-        property "sonar.password", "rfr3t2f_RFR_"
+        property "sonar.secretKeyPath", "zeVPUilQ1feQZoAjHJ7J3SUkA/oMLNaUusUrSWXsbmo="
     }
 }
 
