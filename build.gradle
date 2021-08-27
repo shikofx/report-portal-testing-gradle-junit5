@@ -18,8 +18,8 @@ plugins {
 group "${applicationGroup}"
 version "${applicationVersion}"
 
-targetCompatibility = 1.8
-sourceCompatibility = 1.8
+targetCompatibility = javaVersion
+sourceCompatibility = javaVersion
 
 wrapper {
     gradleVersion = "${gradleWrapperVersion}"
