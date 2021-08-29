@@ -15,10 +15,6 @@ pipeline {
         durabilityHint('PERFORMANCE_OPTIMIZED')
     }
 
-    triggers {
-        cron('H 10 * * *')
-    }
-
     stages {
         stage("build") {
             steps   {
