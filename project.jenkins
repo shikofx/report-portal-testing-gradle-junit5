@@ -8,7 +8,11 @@ pipeline {
     }
 
     options {
+        timestamps()
+        ansiColor('xterm')
         buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
+        disableResume()
+        durabilityHint('PERFORMANCE_OPTIMIZED')
     }
 
     triggers {
@@ -16,31 +20,29 @@ pipeline {
         pollSCM('* * * * *')
     }
 
-    timestamps {
-        stages {
-            stage("build") {
-                steps   {
-                    echo 'build'
-                }
+    stages {
+        stage("build") {
+            steps   {
+                echo 'build'
             }
-
-            stage("unit-tests") {
-                steps   {
-                    echo 'unit tests'
-                }
-            }
-            stage("ui-tests") {
-                steps {
-                    echo 'ui tests'
-                }
-            }
-            stage("sonar-scanner") {
-                steps {
-                    echo 'sonar-scanner'
-                }
-            }
-
         }
+
+        stage("unit-tests") {
+            steps   {
+                echo 'unit tests'
+            }
+        }
+        stage("ui-tests") {
+            steps {
+                echo 'ui tests'
+            }
+        }
+        stage("sonar-scanner") {
+            steps {
+                echo 'sonar-scanner'
+            }
+        }
+
     }
 
 }
