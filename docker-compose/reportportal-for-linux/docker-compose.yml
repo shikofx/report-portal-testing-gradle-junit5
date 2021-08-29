@@ -9,7 +9,7 @@
 ##      '-f docker-compose.yml' -- specifies this compose file
 ##      '-p reportportal' -- specifies container's prefix (project name)
 ##      '-d' -- enables daemon mode
-##      '--force-recreate' -- forces re-recreating of all containers
+##      '--force-recreate' -- forces re-recreating of all containers +
 
 version: '2.4'
 services:
