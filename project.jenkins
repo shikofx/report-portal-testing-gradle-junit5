@@ -17,28 +17,31 @@ pipeline {
         pollSCM('* * * * *')
     }
 
-    stages {
-        stage("build") {
-            steps   {
-                echo 'build'
+    timestamps {
+        stages {
+            stage("build") {
+                steps   {
+                    echo 'build'
+                }
             }
-        }
 
-        stage("unit-tests") {
-            steps   {
-                echo 'unit tests'
+            stage("unit-tests") {
+                steps   {
+                    echo 'unit tests'
+                }
             }
-        }
-        stage("ui-tests") {
-            steps {
-                echo 'ui tests'
+            stage("ui-tests") {
+                steps {
+                    echo 'ui tests'
+                }
             }
-        }
-        stage("sonar-scanner") {
-            steps {
-                echo 'sonar-scanner'
+            stage("sonar-scanner") {
+                steps {
+                    echo 'sonar-scanner'
+                }
             }
-        }
 
+        }
     }
+
 }
