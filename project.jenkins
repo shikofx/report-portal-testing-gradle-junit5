@@ -23,23 +23,23 @@ pipeline {
     stages {
         stage("build") {
             steps   {
-                echo 'build'
+                echo '====================== start BUILD ======================'
             }
         }
 
         stage("unit-tests") {
             steps   {
-                echo 'unit tests'
+                echo '====================== start UNIT tests ======================'
             }
         }
         stage("ui-tests") {
             steps {
-                echo 'ui tests'
+                echo '====================== start UI tests ======================'
             }
         }
         stage("sonar-scanner") {
             steps {
-                echo 'sonar-scanner'
+                echo '====================== start SONAR-SCANNER ======================'
             }
         }
 
