@@ -12,17 +12,18 @@ pipeline {
     }
 
     stages {
+        stage("build") {
+            steps   {
+                echo 'build'
+            }
+        }
+
         stage("unit-tests") {
             steps   {
                 echo 'unit tests'
             }
         }
         stage("ui-tests") {
-            steps {
-                echo 'ui tests'
-            }
-        }
-        stage("build") {
             steps {
                 echo 'ui tests'
             }
