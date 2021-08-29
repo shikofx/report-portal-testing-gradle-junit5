@@ -108,8 +108,7 @@ test {
 sonarqube {
 
     properties {
-        property "sonar.login", "admin"
-        property "sonar.password", "rfr3t2f_RFR_"
+
     }
 }
 
