@@ -105,12 +105,3 @@ test {
     useJUnitPlatform();
 }
 
-sonarqube {
-
-    properties {
-
-    }
-}
-
-
-
