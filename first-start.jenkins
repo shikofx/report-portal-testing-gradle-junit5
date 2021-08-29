@@ -1,0 +1,33 @@
+#!groovy
+
+properties([disableConcurentBuilds()])
+
+pipline {
+    agent {
+        label 'master'
+    }
+
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
+        timestamps()
+    }
+
+    stages {
+        stage("unit-tests") {
+            steps   {
+                echo 'unit tests'
+            }
+        }
+        stage("ui-tests") {
+            steps {
+                echo 'ui tests'
+            }
+        }
+        stage("sonar-scanner") {
+            steps {
+                echo 'sonar-scanner'
+            }
+        }
+
+    }
+}

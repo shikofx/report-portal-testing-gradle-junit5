@@ -108,13 +108,6 @@ test {
 sonarqube {
 
     properties {
-        property "sonar.projectKey", "report-portal-testing-gradle-junit5"
-        property "sonar.sources", "src"
-        property "sonar.modules", "common,web-ui"
-        property "common.sonar.projectName", "Common"
-        property "web-ui.sonar.projectName", "Web-Ui"
-        property "sonar.qualitygate.wait", true
-        property "sonar.issuesReport.html.enable", true
         property "sonar.login", "admin"
         property "sonar.password", "rfr3t2f_RFR_"
     }
