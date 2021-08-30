@@ -22,16 +22,16 @@ pipeline {
     }
 
     stages {
-        stage("build") {
+        stage('build') {
             steps   {
                 echo '====================== start BUILD ======================'
             }
         }
 
-        stage("test") {
+        stage('test') {
             steps {
-                parallel (
-                    stage("unit-tests") {
+                parallel {
+                    stage('unit-tests') {
                         steps { echo '====================== start UNIT tests ======================' }
                     }
 
@@ -42,7 +42,7 @@ pipeline {
                     stage('sonar-scanner') {
                         steps { echo '====================== start SONAR-SCANNER ======================' }
                     }
-                )
+                }
             }
         }
     }
