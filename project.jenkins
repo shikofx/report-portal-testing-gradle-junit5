@@ -13,12 +13,12 @@ pipeline {
         buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
         disableResume()
         durabilityHint('PERFORMANCE_OPTIMIZED')
-        pipelineTriggerts([githubPush()])
     }
 
     triggers {
         cron('H 10 * * *')
         pollSCM('H/5 * * * *')
+        githubPush()
     }
 
     stages {
