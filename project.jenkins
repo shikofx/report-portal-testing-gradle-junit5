@@ -35,15 +35,17 @@ pipeline {
         }
         stage("ui-tests") {
             steps {
-                echo '====================== start UI tests ======================'
-            }
-        }
-        stage("sonar-scanner") {
-            steps {
-                echo '====================== start SONAR-SCANNER ======================'
-            }
-        }
+                parallel (
+                    'ui-tests': {
+                        echo '====================== start UI tests ======================'
+                    },
 
+                    'sonar-scanner': {
+                        echo '====================== start SONAR-SCANNER ======================'
+                    }
+                )
+            }
+        }
     }
 
 }
