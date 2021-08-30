@@ -13,6 +13,7 @@ pipeline {
         buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
         disableResume()
         durabilityHint('PERFORMANCE_OPTIMIZED')
+        disableConcurrentBuilds()
     }
 
     triggers {
