@@ -22,14 +22,6 @@ pipeline {
     }
 
     stages {
-        stage('webhook') {
-            when {
-                branch 'master'
-            }
-            triggers {
-
-            }
-        }
         stage('build') {
             steps   {
                 echo '====================== start BUILD ======================'
