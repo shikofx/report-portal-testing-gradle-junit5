@@ -44,9 +44,10 @@ pipeline {
             }
 
             post {
-              //  always {
+                always {
+                    echo '====================== start POST-BUILD ======================'
                     //junit '**/TEST-*.xml'
-               // }
+                }
             }
         }
 
