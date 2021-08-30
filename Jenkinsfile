@@ -35,10 +35,16 @@ pipeline {
                 }
 
                 stage('ui-tests') {
+                    when {
+                        branch 'master'
+                    }
                     steps { echo '====================== start UI tests ======================' }
                 }
 
                 stage('sonar-scanner') {
+                    when {
+                        branch "dev*"
+                    }
                     steps { echo '====================== start SONAR-SCANNER ======================' }
                 }
             }
@@ -51,6 +57,15 @@ pipeline {
             }
         }
 
+        stage ('PR task') {
+            when {
+                branch 'PR-*'
+            }
+
+            steps {
+                echo 'Steps for PR'
+            }
+        }
 
     }
 
