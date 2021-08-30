@@ -19,10 +19,17 @@ pipeline {
     triggers {
         cron('H 10 * * *')
         pollSCM('H/5 * * * *')
-        githubPush()
     }
 
     stages {
+        stage('webhook') {
+            when {
+                branch 'master'
+            }
+            triggers {
+                githubPush()
+            }
+        }
         stage('build') {
             steps   {
                 echo '====================== start BUILD ======================'
