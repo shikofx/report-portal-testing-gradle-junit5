@@ -29,19 +29,17 @@ pipeline {
         }
 
         stage('test') {
-            steps {
-                parallel {
-                    stage('unit-tests') {
-                        steps { echo '====================== start UNIT tests ======================' }
-                    }
+            parallel {
+                stage('unit-tests') {
+                    steps { echo '====================== start UNIT tests ======================' }
+                }
 
-                    stage('ui-tests') {
-                        steps { echo '====================== start UI tests ======================' }
-                    }
+                stage('ui-tests') {
+                    steps { echo '====================== start UI tests ======================' }
+                }
 
-                    stage('sonar-scanner') {
-                        steps { echo '====================== start SONAR-SCANNER ======================' }
-                    }
+                stage('sonar-scanner') {
+                    steps { echo '====================== start SONAR-SCANNER ======================' }
                 }
             }
         }
