@@ -28,7 +28,7 @@ pipeline {
             }
         }
 
-        stage("ui-tests") {
+        stage("test") {
             steps {
                 parallel (
                     stage("unit-tests") {
