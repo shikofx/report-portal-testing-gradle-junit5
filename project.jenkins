@@ -7,14 +7,13 @@ pipeline {
         label 'master'
     }
 
-    properties([pipelineTriggerts([githubPush()])])
-
     options {
         timestamps()
         ansiColor('xterm')
         buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
         disableResume()
         durabilityHint('PERFORMANCE_OPTIMIZED')
+        pipelineTriggerts([githubPush()]
     }
 
     triggers {
