@@ -57,6 +57,15 @@ pipeline {
             }
         }
 
+        stage ('PR task') {
+            when {
+                branch 'PR-*'
+            }
+
+            steps {
+                echo 'Steps for PR'
+            }
+        }
 
     }
 
