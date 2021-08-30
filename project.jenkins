@@ -43,6 +43,12 @@ pipeline {
                 }
             }
         }
+
+        post {
+            allways {
+                junit '**/TEST-*.xml'
+            }
+        }
     }
 
 }
