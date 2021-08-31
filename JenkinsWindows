@@ -25,35 +25,36 @@ pipeline {
     stages {
         stage('Compile') {
             steps {
-                bat "./gradlew clean build"
-//                gradlew('clean', 'classes')
+                gradlew('clean', 'classes')
             }
         }
 
         stage('build') {
             steps   {
-                echo '====================== start BUILD ======================'
+                gradlew('build')
             }
         }
 
         stage('test') {
             parallel {
                 stage('unit-tests') {
-                    steps { echo '====================== start UNIT tests ======================' }
+                    gradlew('unittests')
                 }
 
                 stage('ui-tests') {
                     when {
                         branch 'master'
                     }
-                    steps { echo '====================== start UI tests ======================' }
+                    steps {
+                        gradlew('webtests')
+                    }
                 }
 
                 stage('sonar-scanner') {
                     when {
                         branch "dev*"
                     }
-                    steps { echo '====================== start SONAR-SCANNER ======================' }
+                    steps { gradlew('sonarcube') }
                 }
             }
 
@@ -79,5 +80,5 @@ pipeline {
 }
 
 def gradlew(String... args) {
-    sh "./gradlew ${args.join(' ')} -s"
+    bat "./gradlew ${args.join(' ')} -s"
 }
