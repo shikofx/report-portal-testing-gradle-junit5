@@ -25,8 +25,8 @@ pipeline {
     stages {
         stage('Compile') {
             steps {
-                cd "${workspace}"
-                ls -la
+                sh cd "${workspace}"
+                sh ll
 //                gradlew('clean', 'classes')
             }
         }
