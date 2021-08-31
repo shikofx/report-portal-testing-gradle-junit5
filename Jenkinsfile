@@ -17,8 +17,8 @@ pipeline {
     }
 
     triggers {
-        cron('H 10 * * *')
-        pollSCM('H/5 * * * *')
+//        cron('H 10 * * *')
+        pollSCM('H 10 * * *')
     }
 
     stages {
@@ -45,9 +45,12 @@ pipeline {
                     when {
                         branch "dev*"
                     }
-//                    withSonarQubeEnv() {
-//                        sh "./gradlew sonarqube"
-//                    }
+                    steps {
+                        echo '====================== start UI tests ======================'
+//                        withSonarQubeEnv() {
+//                            sh "./gradlew sonarqube"
+//                        }
+                    }
                 }
             }
 
