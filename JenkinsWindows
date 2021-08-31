@@ -79,16 +79,11 @@ pipeline {
                 }
             }
         }
-
-        stage('Long Verification') {
-            stage('Code Analysis') {
-                steps {
-                    withSonarQubeEnv(credentialsId: 'SONARQUBE_TOKEN', installationName: 'Sonar Local') {
-                        gradlew('sonarqube')
-                    }
+        stage('Code Analysis') {
+            steps {
+                withSonarQubeEnv(credentialsId: 'SONARQUBE_TOKEN', installationName: 'Sonar Local') {
+                    gradlew('sonarqube')
                 }
-
-
             }
         }
 //TODO: Open port for Jenkins and create Webhook on Sonar server
@@ -97,19 +92,20 @@ pipeline {
 //                waitForQualityGate abortPipeline: true
 //            }
 //        }
+    }
 
-        stage('PR task') {
-            when {
-                branch 'PR-*'
-            }
 
-            steps {
-                echo 'Steps for PR'
-            }
+    stage('PR task') {
+        when {
+            branch 'PR-*'
         }
 
+        steps {
+            echo 'Steps for PR'
+        }
     }
 }
+
 
 def gradlew(String... args) {
     bat "./gradlew ${args.join(' ')} -s"
