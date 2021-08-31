@@ -24,7 +24,6 @@ pipeline {
     stages {
         stage('Compile') {
             steps {
-                echo "=========================== COMPILATION ==========================="
                 gradlew('clean', 'classes')
             }
         }
@@ -33,13 +32,11 @@ pipeline {
             parallel {
                 stage('Unit Tests') {
                     steps {
-                        echo "=========================== UNIT TESTS ==========================="
                         gradlew('unittests')
                     }
                     post {
                         always {
                             script {
-                                echo "=========================== ALLURE REPORT for UNIT TESTS ==========================="
                                 allure([
                                         includeProperties: false,
                                         jdk              : '',
@@ -63,16 +60,12 @@ pipeline {
                         branch 'master'
                     }
                     steps {
-                        echo "=========================== UI TESTS ==========================="
-
                         gradlew('webtests')
                     }
 
                     post {
                         always {
                             script {
-                                echo "=========================== ALLURE REPORT for UI TESTS ==========================="
-
                                 allure([
                                         includeProperties: false,
                                         jdk              : '',
@@ -88,8 +81,6 @@ pipeline {
         }
         stage('Code Analysis') {
             steps {
-                echo "=========================== CODE ANALYZIS ==========================="
-
                 withSonarQubeEnv(credentialsId: 'SONARQUBE_TOKEN', installationName: 'Sonar Local') {
                     gradlew('sonarqube')
                 }
@@ -107,8 +98,6 @@ pipeline {
             }
 
             steps {
-                echo "=========================== PR TASKS ==========================="
-
                 echo 'Steps for PR'
             }
         }
