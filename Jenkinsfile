@@ -47,9 +47,9 @@ pipeline {
                     }
                     steps {
                         echo '====================== start UI tests ======================'
-                        withSonarQubeEnv() {
-                            sh "./gradlew sonarqube"
-                        }
+//                        withSonarQubeEnv() {
+//                            sh "./gradlew sonarqube"
+//                        }
                     }
                 }
             }
