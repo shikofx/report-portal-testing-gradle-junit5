@@ -28,41 +28,41 @@ pipeline {
             }
         }
 
-        stage('build') {
-            steps   {
-                gradlew('build')
+        stage('Unit Tests') {
+            steps {
+                gradlew('unittests')
+            }
+
+            post {
+                always {
+                    junit '**/build/test-results/test/TEST-*.xml'
+                }
             }
         }
 
-        stage('test') {
+        stage('Long Verification') {
+            environment {
+                SONAR_LOGIN = credentials('SONARQUBE_TOKEN')
+                //http://185.231.68.114:9000
+                //603f3552c649c87146427863eb7077d3cc50b724
+            }
             parallel {
-                stage('unit-tests') {
-                    steps {
-                        gradlew('unittests')
-                    }
-                }
-
-                stage('ui-tests') {
+                stage('END-TO-END Tests') {
                     when {
                         branch 'master'
                     }
                     steps {
                         gradlew('webtests')
                     }
-                }
-
-                stage('sonar-scanner') {
-                    when {
-                        branch "dev*"
+                    post {
+                        always {
+                            junit '**/build/test-results/integrationTest/TEST-*.xml'
+                        }
                     }
-                    steps { gradlew('sonarcube') }
                 }
-            }
 
-            post {
-                always {
-                    echo '====================== start POST-BUILD ======================'
-                    //junit '**/TEST-*.xml'
+                stage('Code Analysis') {
+                    steps { gradlew('sonarcube') }
                 }
             }
         }
