@@ -18,7 +18,6 @@ pipeline {
     }
 
     triggers {
-//        cron('H 10 * * *')
         pollSCM('H/1 * * * *')
     }
 
