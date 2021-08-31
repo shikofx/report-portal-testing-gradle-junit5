@@ -4,6 +4,7 @@ import com.epam.qa.learn.rp.ui.tests.app.element.SideBarElement;
 import com.epam.qa.learn.rp.ui.tests.app.element.buttons.SideBarDashButton;
 import com.epam.qa.learn.rp.ui.tests.app.element.buttons.SideBarSettingsButton;
 import com.epam.qa.learn.rp.ui.tests.app.element.buttons.SideBarUserAvatarBlock;
+import io.qameta.allure.Step;
 
 public class PersonalSidebar extends RpSection {
 
@@ -30,6 +31,7 @@ public class PersonalSidebar extends RpSection {
         return settingsButton;
     }
 
+    @Step("Open settings for the user")
     public SettingsForm openSettings() {
         settingsButton.click();
         SettingsForm settingsForm = new SettingsForm(getImplicitlyWait());

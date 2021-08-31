@@ -28,25 +28,33 @@ pipeline {
             }
         }
 
-        stage('Unit Tests') {
-            steps {
-                gradlew('unittests')
-            }
-
-//            post {
-//                always {
-//                    junit '**/build/test-results/test/TEST-*.xml'
-//                }
-//            }
-        }
-
-        stage('Long Verification') {
-//            environment {
-//                SONAR_LOGIN = credentials('SONARQUBE_TOKEN')
-            //http://185.231.68.114:9000
-            //603f3552c649c87146427863eb7077d3cc50b724
-//            }
+        stages('Tests') {
             parallel {
+                stage('Unit Tests') {
+                    steps {
+                        gradlew('unittests')
+                    }
+                    post {
+                        always {
+                            script {
+                                allure([
+                                        includeProperties: false,
+                                        jdk: '',
+                                        properties: [],
+                                        reportBuildPolicy: 'ALWAYS',
+                                        results: [[path: 'target/allure-results']]
+                                ])
+                            }
+                        }
+                    }
+                    //TODO: Добавить JUnit reporter
+                    //            post {
+                    //                always {
+                    //                    junit '**/build/test-results/test/TEST-*.xml'
+                    //                }
+                    //            }
+                }
+
                 stage('END-TO-END Tests') {
                     when {
                         branch 'master'
@@ -54,22 +62,33 @@ pipeline {
                     steps {
                         gradlew('webtests')
                     }
-//                    post {
-//                        always {
-//                            junit '**/build/test-results/integrationTest/TEST-*.xml'
-//                        }
-//                    }
-                }
 
-                stage('Code Analysis') {
-                    steps {
-                        withSonarQubeEnv(credentialsId: 'SONARQUBE_TOKEN', installationName: 'Sonar Local') {
-                            gradlew('sonarqube')
+                    post {
+                        always {
+                            script {
+                                allure([
+                                        includeProperties: false,
+                                        jdk: '',
+                                        properties: [],
+                                        reportBuildPolicy: 'ALWAYS',
+                                        results: [[path: 'build/test-results/allure-results']]
+                                ])
+                            }
                         }
                     }
-
-
                 }
+            }
+        }
+
+        stage('Long Verification') {
+            stage('Code Analysis') {
+                steps {
+                    withSonarQubeEnv(credentialsId: 'SONARQUBE_TOKEN', installationName: 'Sonar Local') {
+                        gradlew('sonarqube')
+                    }
+                }
+
+
             }
         }
 //TODO: Open port for Jenkins and create Webhook on Sonar server
