@@ -18,6 +18,7 @@ pipeline {
     }
 
     triggers {
+//        cron('H 10 * * *')
         pollSCM('H/1 * * * *')
     }
 
@@ -37,7 +38,7 @@ pipeline {
         stage('test') {
             parallel {
                 stage('unit-tests') {
-                    steps{
+                    steps {
                         gradlew('unittests')
                     }
                 }
