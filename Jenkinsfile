@@ -2,8 +2,11 @@
 
 properties([disableConcurrentBuilds()])
 
-node {
-    def gradleBuilder  = Artifactory.newGradleBuild()
+pipeline {
+
+    agent {
+        label 'master'
+    }
 
     options {
         timestamps()
@@ -20,6 +23,12 @@ node {
     }
 
     stages {
+        stage('Compile') {
+            steps {
+                gradlew('clean', 'classes')
+            }
+        }
+
         stage('build') {
             steps   {
                 echo '====================== start BUILD ======================'
