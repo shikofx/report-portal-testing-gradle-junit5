@@ -1,0 +1,86 @@
+#!groovy
+
+properties([disableConcurrentBuilds()])
+
+pipeline {
+
+    agent {
+        label 'master'
+    }
+
+    options {
+        timestamps()
+        ansiColor('xterm')
+        buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
+        disableResume()
+        durabilityHint('PERFORMANCE_OPTIMIZED')
+        disableConcurrentBuilds()
+    }
+
+    triggers {
+//        cron('H 10 * * *')
+        pollSCM('H/1 * * * *')
+    }
+
+    stages {
+        stage('Compile') {
+            steps {
+                gradlew('clean', 'classes')
+            }
+        }
+
+        stage('build') {
+            steps   {
+                gradlew('build')
+            }
+        }
+
+        stage('test') {
+            parallel {
+                stage('unit-tests') {
+                    steps {
+                        gradlew('unittests')
+                    }
+                }
+
+                stage('ui-tests') {
+                    when {
+                        branch 'master'
+                    }
+                    steps {
+                        gradlew('webtests')
+                    }
+                }
+
+                stage('sonar-scanner') {
+                    when {
+                        branch "dev*"
+                    }
+                    steps { gradlew('sonarcube') }
+                }
+            }
+
+            post {
+                always {
+                    echo '====================== start POST-BUILD ======================'
+                    //junit '**/TEST-*.xml'
+                }
+            }
+        }
+
+        stage ('PR task') {
+            when {
+                branch 'PR-*'
+            }
+
+            steps {
+                echo 'Steps for PR'
+            }
+        }
+
+    }
+}
+
+def gradlew(String... args) {
+    bat "./gradlew ${args.join(' ')} -s"
+}

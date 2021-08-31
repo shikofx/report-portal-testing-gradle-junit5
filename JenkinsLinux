@@ -3,6 +3,7 @@
 properties([disableConcurrentBuilds()])
 
 pipeline {
+
     agent {
         label 'master'
     }
@@ -17,35 +18,44 @@ pipeline {
     }
 
     triggers {
-//        cron('H 10 * * *')
-        pollSCM('H 10 * * *')
+        pollSCM('H/1 * * * *')
     }
 
     stages {
+        stage('Compile') {
+            steps {
+                gradlew('clean', 'classes')
+            }
+        }
+
         stage('build') {
             steps   {
-                echo '====================== start BUILD ======================'
+                gradlew('build')
             }
         }
 
         stage('test') {
             parallel {
                 stage('unit-tests') {
-                    steps { echo '====================== start UNIT tests ======================' }
+                    steps{
+                        gradlew('unittests')
+                    }
                 }
 
                 stage('ui-tests') {
                     when {
                         branch 'master'
                     }
-                    steps { echo '====================== start UI tests ======================' }
+                    steps {
+                        gradlew('webtests')
+                    }
                 }
 
                 stage('sonar-scanner') {
                     when {
                         branch "dev*"
                     }
-                    steps { echo '====================== start SONAR-SCANNER ======================' }
+                    steps { gradlew('sonarcube') }
                 }
             }
 
@@ -68,5 +78,8 @@ pipeline {
         }
 
     }
+}
 
+def gradlew(String... args) {
+    sh "./gradlew ${args.join(' ')} -s"
 }
