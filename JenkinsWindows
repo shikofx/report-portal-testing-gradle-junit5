@@ -62,7 +62,9 @@ pipeline {
                 }
 
                 stage('Code Analysis') {
-                    steps { gradlew('sonarqube') }
+                    withSonarQubeEnv(credentialsId: 'SONARQUBE_TOKEN', installationName: 'Sonar Local') {
+                        steps { gradlew('sonarqube') }
+                    }
                 }
             }
         }
