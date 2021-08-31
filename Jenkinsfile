@@ -25,8 +25,7 @@ pipeline {
     stages {
         stage('Compile') {
             steps {
-                sh cd "${workspace}"
-                sh ll
+                bat "./gradlew clean build"
 //                gradlew('clean', 'classes')
             }
         }
