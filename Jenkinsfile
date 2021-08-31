@@ -45,12 +45,7 @@ pipeline {
                     when {
                         branch "dev*"
                     }
-                    steps {
-                        echo '====================== start UI tests ======================'
-//                        withSonarQubeEnv() {
-//                            sh "./gradlew sonarqube"
-//                        }
-                    }
+                    steps { echo '====================== start SONAR-SCANNER ======================' }
                 }
             }
 
