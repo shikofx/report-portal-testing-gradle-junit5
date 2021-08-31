@@ -19,13 +19,13 @@ pipeline {
 
     triggers {
 //        cron('H 10 * * *')
-        pollSCM('H 10 * * *')
+        pollSCM('H/1 * * * *')
     }
 
     stages {
         stage('Compile') {
             steps {
-//                sh './gradlew clean build'
+                sh "./gradlew clean build"
 //                gradlew('clean', 'classes')
             }
         }
