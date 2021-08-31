@@ -3,7 +3,7 @@
 properties([disableConcurrentBuilds()])
 
 node {
-    def gradleBuilder  = Artifactory.newGradleBuild()
+//    def gradleBuilder  = Artifactory.newGradleBuild()
     agent {
         label 'master'
     }
