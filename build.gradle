@@ -99,6 +99,12 @@ subprojects {
             includeTags "unit"
         }
     }
+
+    sonarqube {
+        properties {
+            property "sonar.sources", "src"
+        }
+    }
 }
 
 test {
