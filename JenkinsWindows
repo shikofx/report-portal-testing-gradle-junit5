@@ -62,7 +62,7 @@ pipeline {
                 }
 
                 stage('Code Analysis') {
-                    steps { gradlew('sonarqube', '-Dsonar.login=${SONAR_LOGIN}') }
+                    steps { gradlew('sonarqube') }
                 }
             }
         }
