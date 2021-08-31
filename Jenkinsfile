@@ -45,9 +45,9 @@ pipeline {
                     when {
                         branch "dev*"
                     }
-                    withSonarQubeEnv() {
-                        sh "./gradlew sonarqube"
-                    }
+//                    withSonarQubeEnv() {
+//                        sh "./gradlew sonarqube"
+//                    }
                 }
             }
 
