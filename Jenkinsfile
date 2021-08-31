@@ -2,7 +2,7 @@
 
 properties([disableConcurrentBuilds()])
 
-pipeline {
+node {
     def gradleBuilder  = Artifactory.newGradleBuild()
     agent {
         label 'master'
