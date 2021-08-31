@@ -62,7 +62,7 @@ pipeline {
                 }
 
                 stage('Code Analysis') {
-                    steps { gradlew('sonarcube') }
+                    steps { gradlew('sonarqube') }
                 }
             }
         }
