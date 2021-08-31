@@ -67,9 +67,7 @@ pipeline {
                             gradlew('sonarqube')
                         }
                     }
-                }
 
-                stage("Quality Gate") {
                     steps {
                         waitForQualityGate abortPipeline: true
                     }
