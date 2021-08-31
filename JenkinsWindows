@@ -39,10 +39,10 @@ pipeline {
                             script {
                                 allure([
                                         includeProperties: false,
-                                        jdk: '',
-                                        properties: [],
+                                        jdk              : '',
+                                        properties       : [],
                                         reportBuildPolicy: 'ALWAYS',
-                                        results: [[path: 'target/allure-results']]
+                                        results          : [[path: 'target/allure-results']]
                                 ])
                             }
                         }
@@ -68,10 +68,10 @@ pipeline {
                             script {
                                 allure([
                                         includeProperties: false,
-                                        jdk: '',
-                                        properties: [],
+                                        jdk              : '',
+                                        properties       : [],
                                         reportBuildPolicy: 'ALWAYS',
-                                        results: [[path: 'build/test-results/allure-results']]
+                                        results          : [[path: 'build/test-results/allure-results']]
                                 ])
                             }
                         }
@@ -92,16 +92,14 @@ pipeline {
 //                waitForQualityGate abortPipeline: true
 //            }
 //        }
-    }
+        stage('PR task') {
+            when {
+                branch 'PR-*'
+            }
 
-
-    stage('PR task') {
-        when {
-            branch 'PR-*'
-        }
-
-        steps {
-            echo 'Steps for PR'
+            steps {
+                echo 'Steps for PR'
+            }
         }
     }
 }
