@@ -33,11 +33,11 @@ pipeline {
                 gradlew('unittests')
             }
 
-            post {
-                always {
-                    junit '**/build/test-results/test/TEST-*.xml'
-                }
-            }
+//            post {
+//                always {
+//                    junit '**/build/test-results/test/TEST-*.xml'
+//                }
+//            }
         }
 
         stage('Long Verification') {
@@ -54,11 +54,11 @@ pipeline {
                     steps {
                         gradlew('webtests')
                     }
-                    post {
-                        always {
-                            junit '**/build/test-results/integrationTest/TEST-*.xml'
-                        }
-                    }
+//                    post {
+//                        always {
+//                            junit '**/build/test-results/integrationTest/TEST-*.xml'
+//                        }
+//                    }
                 }
 
                 stage('Code Analysis') {
