@@ -102,7 +102,7 @@ subprojects {
 
     sonarqube {
         properties {
-            property "sonar.sources", "src"
+            property "sonar.sourceEncoding", "UTF-8"
         }
     }
 }
@@ -111,3 +111,10 @@ test {
     useJUnitPlatform();
 }
 
+project.tasks["sonarqube"].dependsOn test
+
+sonarqube {
+    properties {
+        property "sonar.login", "b79757745bfafd0b41cc06d5fb277f9e9871549e"
+    }
+}
