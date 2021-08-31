@@ -38,7 +38,9 @@ pipeline {
         stage('test') {
             parallel {
                 stage('unit-tests') {
-                    gradlew('unittests')
+                    steps {
+                        gradlew('unittests')
+                    }
                 }
 
                 stage('ui-tests') {

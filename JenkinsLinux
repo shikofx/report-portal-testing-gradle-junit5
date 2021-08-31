@@ -35,10 +35,12 @@ pipeline {
             }
         }
 
-        stage('test') {
+        stages('test') {
             parallel {
                 stage('unit-tests') {
-                    gradlew('unittests')
+                    steps{
+                        gradlew('unittests')
+                    }
                 }
 
                 stage('ui-tests') {
