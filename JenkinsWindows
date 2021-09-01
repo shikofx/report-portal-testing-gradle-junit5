@@ -38,15 +38,6 @@ pipeline {
                     post {
                         always {
                             junitReport()
-                            script {
-                                allure([
-                                        includeProperties: false,
-                                        jdk              : '',
-                                        properties       : [],
-                                        reportBuildPolicy: 'ALWAYS',
-                                        results          : [[path: '**/allure-results']]
-                                ])
-                            }
                         }
                     }
                 }
@@ -58,15 +49,6 @@ pipeline {
                     post {
                         always {
                             junitReport()
-                            script {
-                                allure([
-                                        includeProperties: false,
-                                        jdk              : '',
-                                        properties       : [],
-                                        reportBuildPolicy: 'ALWAYS',
-                                        results          : [[path: '**/allure-results']]
-                                ])
-                            }
                         }
                     }
                 }
@@ -77,19 +59,19 @@ pipeline {
                 gradlew('build')
             }
 
-//            post {
-//                always {
-//                    script {
-//                        allure([
-//                                includeProperties: false,
-//                                jdk              : '',
-//                                properties       : [],
-//                                reportBuildPolicy: 'ALWAYS',
-//                                results          : [[path: '**/allure-results']]
-//                        ])
-//                    }
-//                }
-//            }
+            post {
+                always {
+                    script {
+                        allure([
+                                includeProperties: false,
+                                jdk              : '',
+                                properties       : [],
+                                reportBuildPolicy: 'ALWAYS',
+                                results          : [[path: '**/allure-results']]
+                        ])
+                    }
+                }
+            }
         }
 //        stage('Code Analysis') {
 //            steps {
