@@ -124,7 +124,7 @@ allprojects {
 test {
     useJUnitPlatform();
     testLogging.showStandardStreams = true
-
+    reports.junitXml.destination=file("build/test-results")
 }
 
 project.tasks["sonarqube"].dependsOn test
@@ -166,3 +166,4 @@ sonarqube {
 //            } })
 //
 //}
+
