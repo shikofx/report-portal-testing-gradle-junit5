@@ -37,8 +37,12 @@ pipeline {
                         printHeader('unit Tests')
                         gradlew('unittests')
                     }
-                    withChecks("Unit Tests"){
-                        junitReport()
+                    post {
+                        always {
+                            withChecks("Unit Tests"){
+                                junitReport()
+                            }
+                        }
                     }
                 }
 
@@ -47,8 +51,12 @@ pipeline {
                         printHeader('end-to-end Tests')
                         gradlew('webtests')
                     }
-                    withChecks("Unit Tests"){
-                        junitReport()
+                    post {
+                        always {
+                            withChecks('END-TO-END Tests'){
+                                junitReport()
+                            }
+                        }
                     }
                 }
             }
