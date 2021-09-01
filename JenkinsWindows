@@ -64,14 +64,19 @@ pipeline {
             }
 
             post {
-                    script {
-                        printHeader('ALLUR report')
-                        allure([
-                            includeProperties: false,
-                            properties: [],
-                            reportBuildPolicy: 'ALWAYS',
-                            results : [[path: 'common/allure-results'], [path: 'web-ui/allure-results']]
-                        ])
+                always{
+                    script{
+                        gradlew('allureReport')
+//                        allure();
+                    }
+//                    script {
+//                        printHeader('ALLUR report')
+//                        allure([
+//                            includeProperties: false,
+//                            properties: [],
+//                            reportBuildPolicy: 'ALWAYS',
+//                            results : [[path: 'build/allure-results']]
+//                        ])
                 }
             }
         }

@@ -136,34 +136,14 @@ sonarqube {
     }
 }
 
-//allure {
-//    version = "${allureReportPluginVersion}"  // Latest Allure Version
-//    aspectjweaver = true
-//    autoconfigure = true
-//    useJUnit5 {
-//        version = "${allureReportVersion}" // Latest Allure Version
-//    }
-//
-//    reportDir = file("$projectDir/build/reports/allure-report")
-//}
-//
-//import io.qameta.allure.gradle.task.AllureReport
-//
-//import java.util.stream.Collectors
-//
-//tasks.register('allureAggregatedReport', AllureReport) {
-//    println("--------------> Aggregate results from <---------------")
-//    subprojects.forEach({ p -> } )
-//            .map({ p -> file("$p.projectDir\\allure-results") })
-//            .collect(Collectors.toList())
-//    resultsDirs.add(file("$testReportDir/test-results/allure-results"))
+allure {
+    version = "${allureReportPluginVersion}"  // Latest Allure Version
+    aspectjweaver = true
+    autoconfigure = true
+    useJUnit5 {
+        version = "${allureReportVersion}" // Latest Allure Version
+    }
 
-//    println(resultsDirs.toString())
-//    subprojects.stream()
-//            .forEach( {p -> {
-//                println "$p.projectDir\\allure-results"
-//
-//            } })
-//
-//}
+    reportDir = file("$projectDir/build/reports/allure-report")
+}
 
