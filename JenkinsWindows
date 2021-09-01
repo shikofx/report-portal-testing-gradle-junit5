@@ -59,13 +59,14 @@ pipeline {
                         junitReport()
                     }
                     script{
+                        printHeader("HTML publisher")
                         publicReport()
                         gradlew('allureReport')
-
-//                        allure();
+                        printHeader('ALLUR report')
+                        allure();
                     }
 //                    script {
-//                        printHeader('ALLUR report')
+//
 //                        allure([
 //                            includeProperties: false,
 //                            properties: [],
