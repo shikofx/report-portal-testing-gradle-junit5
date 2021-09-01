@@ -130,7 +130,7 @@ def publicReport(String name) {
         publishHTML (target : [allowMissing: false,
                                alwaysLinkToLastBuild: true,
                                keepAll: true,
-                               reportDir: 'reports/tests',
+                               reportDir: '**/build/reports/tests',
                                reportFiles: 'index.html',
                                reportName: "$name",
                                reportTitles: "Test Report: $name"])
