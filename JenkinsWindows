@@ -84,7 +84,7 @@ pipeline {
             steps {
                 printHeader('Wait Quality Gates callback')
                 waitForQualityGate abortPipeline: true
-                curl 'http://sonar.sh.cn.ao.ericsson.se//api/resources?metrics=qi-quality-index,coverage,test_success_density&resource=54936 --output sonar-result.xml'
+                curl "http://localhost:9000//api/resources?metrics=qi-quality-index,coverage,test_success_density&resource=54936" --output "sonar-result.xml"
             }
         }
         stage('PR task') {
