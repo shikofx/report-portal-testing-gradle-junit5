@@ -37,11 +37,8 @@ pipeline {
                         printHeader('unit Tests')
                         gradlew('unittests')
                     }
-                    post {
-                        always {
-                            junitReport()
-                            publicReport('Unit Tests')
-                        }
+                    withChecks("Unit Tests"){
+                        junitReport()
                     }
                 }
 
@@ -50,11 +47,8 @@ pipeline {
                         printHeader('end-to-end Tests')
                         gradlew('webtests')
                     }
-                    post {
-                        always {
-                            junitReport()
-                            publicReport('End-To-End Tests')
-                        }
+                    withChecks("Unit Tests"){
+                        junitReport()
                     }
                 }
             }
@@ -68,7 +62,9 @@ pipeline {
             post {
                 always{
                     script{
+                        publicReport()
                         gradlew('allureReport')
+
 //                        allure();
                     }
 //                    script {
@@ -118,19 +114,27 @@ def gradlew(String... args) {
 }
 
 def junitReport() {
-    junit skipPublishingChecks: true, allowEmptyResults: true, testResults: '**/build/test-results/**/*.xml'
+    junit allowEmptyResults: true, testResults: '**/build/test-results/**/*.xml'
 }
 
 def printHeader(String arg) {
     echo " ============================ Start $arg ============================ "
 }
 
-def publicReport(String name) {
+def publicReport() {
     script {
-        publishHTML (target : [allowMissing: false,
+        publishHTML (target : [allowMissing: true,
                                alwaysLinkToLastBuild: true,
                                keepAll: true,
-                               reportDir: '**/build/reports/tests',
+                               reportDir: 'common/build/reports/tests',
+                               reportFiles: 'index.html',
+                               reportName: "$name",
+                               reportTitles: "Test Report: $name"])
+
+        publishHTML (target : [allowMissing: true,
+                               alwaysLinkToLastBuild: true,
+                               keepAll: true,
+                               reportDir: 'web-ui/build/reports/tests',
                                reportFiles: 'index.html',
                                reportName: "$name",
                                reportTitles: "Test Report: $name"])
