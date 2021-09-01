@@ -59,21 +59,12 @@ pipeline {
                     withChecks("Tests"){
                         junitReport()
                     }
-                    script{
+                    script {
                         printHeader("HTML publisher")
-                        publicReport()
-                        gradlew('allureReport')
+                        publishHtmlReport()
                         printHeader('ALLUR report')
-                        allure results : [[path: 'build/allure-results']];
+                        allureReport()
                     }
-//                    script {
-//
-//                        allure([
-//                            includeProperties: false,
-//                            properties: [],
-//                            reportBuildPolicy: 'ALWAYS',
-//                            results : [[path: 'build/allure-results']]
-//                        ])
                 }
             }
         }
@@ -120,7 +111,7 @@ def printHeader(String arg) {
     echo " ============================ Start $arg ============================ "
 }
 
-def publicReport() {
+def publishHtmlReport() {
     script {
         publishHTML (target : [allowMissing: true,
                                alwaysLinkToLastBuild: true,
@@ -137,5 +128,16 @@ def publicReport() {
                                reportFiles: 'index.html',
                                reportName: "Tests for WEB-UI",
                                reportTitles: "WEB-UI"])
+    }
+}
+
+def allureReport(){
+    script {
+        allure ([
+                includeProperties: false,
+                properties: [],
+                reportBuildPolicy: 'ALWAYS',
+                results : [[path: 'build/allure-results']]
+        ])
     }
 }
