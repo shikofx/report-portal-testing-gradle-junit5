@@ -51,7 +51,7 @@ pipeline {
                     //TODO: Добавить JUnit reporter
                     post {
                         always {
-                            junit allowEmptyResults: true, testResults: '**/build/test-results/**/*.xml'
+                            junit allowEmptyResults: true, testResults: 'common/build/test-results/**/*.xml'
                         }
                     }
                 }
