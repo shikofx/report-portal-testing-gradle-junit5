@@ -37,26 +37,12 @@ pipeline {
                         printHeader('unit Tests')
                         gradlew('unittests')
                     }
-                    post {
-                        always {
-                            withChecks("Unit Tests"){
-                                junitReport()
-                            }
-                        }
-                    }
                 }
 
                 stage('END-TO-END Tests') {
                     steps {
                         printHeader('end-to-end Tests')
                         gradlew('webtests')
-                    }
-                    post {
-                        always {
-                            withChecks('END-TO-END Tests'){
-                                junitReport()
-                            }
-                        }
                     }
                 }
             }
@@ -69,6 +55,9 @@ pipeline {
 
             post {
                 always{
+                    withChecks(){
+                        junitReport()
+                    }
                     script{
                         publicReport()
                         gradlew('allureReport')
@@ -136,15 +125,15 @@ def publicReport() {
                                keepAll: true,
                                reportDir: 'common/build/reports/tests',
                                reportFiles: 'index.html',
-                               reportName: "$name",
-                               reportTitles: "Test Report: $name"])
+                               reportName: "Tests for common",
+                               reportTitles: "COMMON"])
 
         publishHTML (target : [allowMissing: true,
                                alwaysLinkToLastBuild: true,
                                keepAll: true,
                                reportDir: 'web-ui/build/reports/tests',
                                reportFiles: 'index.html',
-                               reportName: "$name",
-                               reportTitles: "Test Report: $name"])
+                               reportName: "Tests for WEB-UI",
+                               reportTitles: "WEB-UI"])
     }
 }
