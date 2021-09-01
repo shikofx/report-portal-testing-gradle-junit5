@@ -131,8 +131,7 @@ project.tasks["sonarqube"].dependsOn test
 
 sonarqube {
     properties {
-        property "sonar.login", "admin"
-        property "sonar.password", "0986123"
+        property "sonar.login", "ff56a59e4a48d3e2a1637bffa541b9f2c57fd662"
     }
 }
 

@@ -68,14 +68,14 @@ pipeline {
                 }
             }
         }
-//        stage('Code Analysis') {
-//            steps {
-//                printHeader('SONARQUBE')
-//                withSonarQubeEnv(credentialsId: 'SONARQUB_TOKEN_LOCALHOST', installationName: 'Sonar Local') {
-//                    gradlew('sonarqube')
-//                }
-//            }
-//        }
+        stage('Code Analysis') {
+            steps {
+                printHeader('SONARQUBE')
+                withSonarQubeEnv(credentialsId: 'SONARQUB_TOKEN_LOCALHOST', installationName: 'Sonar Local') {
+                    gradlew('sonarqube')
+                }
+            }
+        }
 //        stage('Quality Gate') {
 //            options {
 //                timeout(time: 1, unit: 'MINUTES')
