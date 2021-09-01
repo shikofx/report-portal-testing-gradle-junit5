@@ -49,11 +49,11 @@ pipeline {
 //                        }
 //                    }
                     //TODO: Добавить JUnit reporter
-//                    post {
-//                        always {
-//                            junit '**/build/test-results/test/TEST-*.xml'
-//                        }
-//                    }
+                    post {
+                        always {
+                            junit '**/build/test-results/test/TEST-*.xml'
+                        }
+                    }
                 }
 
                 stage('END-TO-END Tests') {
@@ -85,22 +85,22 @@ pipeline {
                 }
             }
         }
-        stage('Code Analysis') {
-            steps {
-                withSonarQubeEnv(credentialsId: 'SONARQUB_TOKEN_LOCALHOST', installationName: 'Sonar Local') {
-                    gradlew('sonarqube')
-                }
-            }
-        }
-        stage('Quality Gate') {
-            options {
-                timeout(time: 1, unit: 'MINUTES')
-                retry(2)
-            }
-            steps {
-                waitForQualityGate abortPipeline: true
-            }
-        }
+//        stage('Code Analysis') {
+//            steps {
+//                withSonarQubeEnv(credentialsId: 'SONARQUB_TOKEN_LOCALHOST', installationName: 'Sonar Local') {
+//                    gradlew('sonarqube')
+//                }
+//            }
+//        }
+//        stage('Quality Gate') {
+//            options {
+//                timeout(time: 1, unit: 'MINUTES')
+//                retry(2)
+//            }
+//            steps {
+//                waitForQualityGate abortPipeline: true
+//            }
+//        }
         stage('PR task') {
             when {
                 branch 'PR-*'
