@@ -50,7 +50,7 @@ pipeline {
         }
         stage ('Build and Report') {
             steps ('Build'){
-                printHeader('BUILD')
+                printHeader('ASSEMBLE')
                 gradlew('assemble')
             }
 
