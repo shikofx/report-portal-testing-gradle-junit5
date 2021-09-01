@@ -76,16 +76,16 @@ pipeline {
                 }
             }
         }
-//        stage('Quality Gate') {
-//            options {
-//                timeout(time: 1, unit: 'MINUTES')
-//                retry(2)
-//            }
-//            steps {
-            //    printHeader('Wait Quality Gates callback')
-//                waitForQualityGate abortPipeline: true
-//            }
-//        }
+        stage('Quality Gate') {
+            options {
+                timeout(time: 1, unit: 'MINUTES')
+                retry(2)
+            }
+            steps {
+                printHeader('Wait Quality Gates callback')
+                waitForQualityGate abortPipeline: true
+            }
+        }
         stage('PR task') {
             when {
                 branch 'PR-*'
