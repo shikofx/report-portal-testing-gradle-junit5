@@ -60,21 +60,18 @@ pipeline {
         stage ('Build and Report') {
             steps ('Build'){
                 printHeader('BUILD')
-                gradlew('build')
+                gradlew('assemble')
             }
 
             post {
-                always {
-                    cmd script {
+                    script {
                         printHeader('ALLUR report')
                         allure([
-                                includeProperties: false,
-                                jdk              : '',
-                                properties       : [],
-                                reportBuildPolicy: 'ALWAYS',
-                                results          : [[path: '**/allure-results']]
+                            includeProperties: false,
+                            properties: [],
+                            reportBuildPolicy: 'ALWAYS',
+                            results : [[path: 'common/allure-results'], [path: 'web-ui/allure-results']]
                         ])
-                    }
                 }
             }
         }
