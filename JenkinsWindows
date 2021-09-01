@@ -40,6 +40,7 @@ pipeline {
                     post {
                         always {
                             junitReport()
+                            publicReport()
                         }
                     }
                 }
@@ -52,6 +53,7 @@ pipeline {
                     post {
                         always {
                             junitReport()
+                            publicReport()
                         }
                     }
                 }
@@ -121,4 +123,16 @@ def junitReport() {
 
 def printHeader(String arg) {
     echo " ============================ Start $arg ============================ "
+}
+
+def publicReport(String name) {
+    script {
+        publishHTML (target : [allowMissing: false,
+                               alwaysLinkToLastBuild: true,
+                               keepAll: true,
+                               reportDir: 'reports/tests',
+                               reportFiles: 'index.html',
+                               reportName: "$name",
+                               reportTitles: "Test Report: $name"])
+    }
 }
