@@ -63,7 +63,7 @@ pipeline {
                         publicReport()
                         gradlew('allureReport')
                         printHeader('ALLUR report')
-                        allure();
+                        allure results : [[path: 'build/allure-results']];
                     }
 //                    script {
 //
