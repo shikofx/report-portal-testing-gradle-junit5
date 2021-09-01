@@ -56,7 +56,7 @@ pipeline {
         }
         stage ('Build and Report') {
             steps ('Build'){
-                steps { gradlew('build') }
+                gradlew('build')
             }
 
             post {
