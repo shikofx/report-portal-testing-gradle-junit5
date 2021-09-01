@@ -87,7 +87,7 @@ pipeline {
         }
         stage('Code Analysis') {
             steps {
-                withSonarQubeEnv(credentialsId: 'sonarqub-localhost-9000', installationName: 'Sonar Local') {
+                withSonarQubeEnv(credentialsId: 'SONARQUB_TOKEN_LOCALHOST', installationName: 'Sonar Local') {
                     gradlew('sonarqube')
                 }
             }
