@@ -37,7 +37,7 @@ pipeline {
                     }
                     post {
                         always {
-                            junit allowEmptyResults: true, testResults: '**/build/test-results/**/*.xml'
+                            junitReport()
                         }
                     }
                 }
@@ -48,7 +48,7 @@ pipeline {
                     }
                     post {
                         always {
-                            junit allowEmptyResults: true, testResults: '**/build/test-results/**/*.xml'
+                            junitReport()
                         }
                     }
                 }
@@ -67,7 +67,7 @@ pipeline {
                                 jdk              : '',
                                 properties       : [],
                                 reportBuildPolicy: 'ALWAYS',
-                                results          : [[path: 'build/test-results/allure-results']]
+                                results          : [[path: '**/allure-results']]
                         ])
                     }
                 }
@@ -104,4 +104,8 @@ pipeline {
 
 def gradlew(String... args) {
     bat "./gradlew ${args.join(' ')} -s"
+}
+
+def junitReport() {
+    junit skipPublishingChecks: true, allowEmptyResults: true, testResults: '**/build/test-results/**/*.xml'
 }
