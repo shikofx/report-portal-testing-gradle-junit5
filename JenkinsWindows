@@ -48,18 +48,17 @@ pipeline {
 //                            }
 //                        }
 //                    }
-                    //TODO: Добавить JUnit reporter
                     post {
                         always {
-                            junit testResults: 'common/build/test-results/**/*.xml'
+                            junit allowEmptyResults: true, testResults: 'common/build/test-results/**/*.xml'
                         }
                     }
                 }
 
                 stage('END-TO-END Tests') {
-                    when {
-                        branch 'master'
-                    }
+//                    when {
+//                        branch 'master'
+//                    }
                     steps {
                         gradlew('webtests')
                     }
@@ -77,11 +76,11 @@ pipeline {
 //                            }
 //                        }
 //                    }
-//                    post {
-//                        always {
-//                            junit '**/build/test-results/test/TEST-*.xml'
-//                        }
-//                    }
+                    post {
+                        always {
+                            junit '**/build/test-results/test/TEST-*.xml'
+                        }
+                    }
                 }
             }
         }
