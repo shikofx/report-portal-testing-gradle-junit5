@@ -40,7 +40,7 @@ pipeline {
                     post {
                         always {
                             junitReport()
-                            publicReport()
+                            publicReport('Unit Tests')
                         }
                     }
                 }
@@ -53,7 +53,7 @@ pipeline {
                     post {
                         always {
                             junitReport()
-                            publicReport()
+                            publicReport('End-To-End Tests')
                         }
                     }
                 }
