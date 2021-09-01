@@ -71,7 +71,7 @@ pipeline {
         stage('Code Analysis') {
             steps {
                 printHeader('SONARQUBE')
-                withSonarQubeEnv(credentialsId: 'SONARQUB_TOKEN_LOCALHOST', installationName: 'Sonar Local') {
+                withSonarQubeEnv(credentialsId: 'SONARQUBE_TOKEN_LH', installationName: 'Sonar Local') {
                     gradlew('sonarqube')
                 }
             }
