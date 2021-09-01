@@ -51,7 +51,7 @@ pipeline {
                     //TODO: Добавить JUnit reporter
                     post {
                         always {
-                            junit '**/test-results/test/TEST-*.xml'
+                            junit 'build/test-results/test/TEST-*.xml'
                         }
                     }
                 }
