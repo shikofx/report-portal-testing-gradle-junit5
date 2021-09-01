@@ -72,7 +72,14 @@ pipeline {
                                 jdk              : '',
                                 properties       : [],
                                 reportBuildPolicy: 'ALWAYS',
-                                results          : [[path: '**/allure-results']]
+                                results          : [[path: 'common/allure-results']]
+                        ])
+                        allure([
+                                includeProperties: false,
+                                jdk              : '',
+                                properties       : [],
+                                reportBuildPolicy: 'ALWAYS',
+                                results          : [[path: 'web-ui/allure-results']]
                         ])
                     }
                 }
