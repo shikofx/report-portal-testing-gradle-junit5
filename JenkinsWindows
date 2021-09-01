@@ -25,6 +25,7 @@ pipeline {
         stage('Compile') {
             steps {
                 gradlew('clean', 'classes')
+                gradlew('clean', 'testClasses')
             }
         }
 
@@ -34,25 +35,25 @@ pipeline {
                     steps {
                         gradlew('unittests')
                     }
-                    post {
-                        always {
-                            script {
-                                allure([
-                                        includeProperties: false,
-                                        jdk              : '',
-                                        properties       : [],
-                                        reportBuildPolicy: 'ALWAYS',
-                                        results          : [[path: "{PROJECT}/allure-results"]]
-                                ])
-                            }
-                        }
-                    }
+//                    post {
+//                        always {
+//                            script {
+//                                allure([
+//                                        includeProperties: false,
+//                                        jdk              : '',
+//                                        properties       : [],
+//                                        reportBuildPolicy: 'ALWAYS',
+//                                        results          : [[path: "{PROJECT}/allure-results"]]
+//                                ])
+//                            }
+//                        }
+//                    }
                     //TODO: Добавить JUnit reporter
-                    //            post {
-                    //                always {
-                    //                    junit '**/build/test-results/test/TEST-*.xml'
-                    //                }
-                    //            }
+//                    post {
+//                        always {
+//                            junit '**/build/test-results/test/TEST-*.xml'
+//                        }
+//                    }
                 }
 
                 stage('END-TO-END Tests') {
@@ -63,19 +64,24 @@ pipeline {
                         gradlew('webtests')
                     }
 
-                    post {
-                        always {
-                            script {
-                                allure([
-                                        includeProperties: false,
-                                        jdk              : '',
-                                        properties       : [],
-                                        reportBuildPolicy: 'ALWAYS',
-                                        results          : [[path: 'build/test-results/allure-results']]
-                                ])
-                            }
-                        }
-                    }
+//                    post {
+//                        always {
+//                            script {
+//                                allure([
+//                                        includeProperties: false,
+//                                        jdk              : '',
+//                                        properties       : [],
+//                                        reportBuildPolicy: 'ALWAYS',
+//                                        results          : [[path: 'build/test-results/allure-results']]
+//                                ])
+//                            }
+//                        }
+//                    }
+//                    post {
+//                        always {
+//                            junit '**/build/test-results/test/TEST-*.xml'
+//                        }
+//                    }
                 }
             }
         }
@@ -86,12 +92,11 @@ pipeline {
                 }
             }
         }
-//TODO: Open port for Jenkins and create Webhook on Sonar server
-//        stage('Quality Gate') {
-//            steps {
-//                waitForQualityGate abortPipeline: true
-//            }
-//        }
+        stage('Quality Gate') {
+            steps {
+                waitForQualityGate abortPipeline: true
+            }
+        }
         stage('PR task') {
             when {
                 branch 'PR-*'
