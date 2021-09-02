@@ -38,7 +38,7 @@ pipeline {
                         printHeader('unit Tests')
                         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                             gradlew('unittests')
-                            sh "exit 1"
+                            bat "exit 1"
                         }
                     }
                 }
@@ -48,7 +48,7 @@ pipeline {
                         printHeader('end-to-end Tests')
                         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                             gradlew('webtests')
-                            sh "exit 1"
+                            gat "exit 1"
                         }
                     }
                 }
