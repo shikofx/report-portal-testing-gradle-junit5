@@ -107,7 +107,7 @@ pipeline {
 //Windows implementation uses "bat" command executor
 //Linux implementation uses "sh" command executor
 def continuePipeline(){
-    bat "exit 1"
+    bat "exit 0"
 }
 
 
