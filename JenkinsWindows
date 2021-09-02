@@ -48,7 +48,7 @@ pipeline {
                         printHeader('end-to-end Tests')
                         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                             gradlew('webtests')
-                            gat "exit 1"
+                            bat "exit 1"
                         }
                     }
                 }
