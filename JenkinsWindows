@@ -36,20 +36,9 @@ pipeline {
                 stage('Unit Tests') {
                     steps {
                         printHeader('unit Tests')
-                        gradlew('unittests')
-                    }
-
-                    post {
-                        always{
-                            withChecks("Unit test report"){
-                                junitReport()
-                            }
-                            script {
-                                printHeader("HTML publisher")
-                                publishHtmlReport()
-                                printHeader('ALLUR report')
-                                allureReport()
-                            }
+                        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                            gradlew('unittests')
+                            sh "exit 1"
                         }
                     }
                 }
@@ -57,43 +46,34 @@ pipeline {
                 stage('END-TO-END Tests') {
                     steps {
                         printHeader('end-to-end Tests')
-                        gradlew('webtests')
-                    }
-
-                    post {
-                        always{
-                            withChecks("Tests"){
-                                junitReport()
-                            }
-                            script {
-                                printHeader("HTML publisher")
-                                publishHtmlReport()
-                                printHeader('ALLUR report')
-                                allureReport()
-                            }
+                        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                            gradlew('webtests')
+                            sh "exit 1"
                         }
                     }
                 }
             }
         }
-//        stage ('Build and Report') {
-//            steps ('Build'){
-//                printHeader('ASSEMBLE')
-//                gradlew('assemble')
-//            }
-//
-//            post {
-//                always{
-//                    withChecks("Tests"){
-//                        junitReport()
-//                    }
-//                    script {
-//                        printHeader("HTML publisher")
-//                        publishHtmlReport()
-//                    }
-//                }
-//            }
-//        }
+        stage ('Build and Report') {
+            steps ('Build'){
+                printHeader('ASSEMBLE')
+                gradlew('assemble')
+            }
+
+            post {
+                always{
+                    withChecks("Tests"){
+                        junitReport()
+                    }
+                    script {
+                        printHeader("HTML publisher")
+                        publishHtmlReport()
+                        printHeader('ALLUR report')
+                        allureReport()
+                    }
+                }
+            }
+        }
         stage('Code Analysis') {
             steps {
                 printHeader('SONARQUBE')
