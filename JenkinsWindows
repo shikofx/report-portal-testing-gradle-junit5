@@ -76,26 +76,24 @@ pipeline {
                 }
             }
         }
-        stage ('Build and Report') {
-            steps ('Build'){
-                printHeader('ASSEMBLE')
-                gradlew('assemble')
-            }
-
-            post {
-                always{
-                    withChecks("Tests"){
-                        junitReport()
-                    }
-                    script {
-                        printHeader("HTML publisher")
-                        publishHtmlReport()
-                        printHeader('ALLUR report')
-                        allureReport()
-                    }
-                }
-            }
-        }
+//        stage ('Build and Report') {
+//            steps ('Build'){
+//                printHeader('ASSEMBLE')
+//                gradlew('assemble')
+//            }
+//
+//            post {
+//                always{
+//                    withChecks("Tests"){
+//                        junitReport()
+//                    }
+//                    script {
+//                        printHeader("HTML publisher")
+//                        publishHtmlReport()
+//                    }
+//                }
+//            }
+//        }
         stage('Code Analysis') {
             steps {
                 printHeader('SONARQUBE')
