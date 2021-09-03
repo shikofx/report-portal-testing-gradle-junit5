@@ -18,69 +18,138 @@ pipeline {
     }
 
     triggers {
-//        cron('H 10 * * *')
-        pollSCM('H/1 * * * *')
+        pollSCM('H/30 * * * *')
+        githubPush()
     }
 
     stages {
         stage('Compile') {
             steps {
+                printHeader('COMPILATION')
                 gradlew('clean', 'classes')
+                gradlew('clean', 'testClasses')
             }
         }
 
-        stage('build') {
-            steps   {
-                gradlew('build')
-            }
-        }
-
-        stage('test') {
+        stage('Tests') {
             parallel {
-                stage('unit-tests') {
+                stage('Unit Tests') {
                     steps {
-                        gradlew('unittests')
+                        printHeader('unit Tests')
+                        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                            gradlew('unittests')
+                            continuePipeline()
+                        }
                     }
                 }
 
-                stage('ui-tests') {
-                    when {
-                        branch 'master'
-                    }
+                stage('END-TO-END Tests') {
                     steps {
-                        gradlew('webtests')
+                        printHeader('end-to-end Tests')
+                        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                            gradlew('webtests')
+                            continuePipeline()
+                        }
                     }
                 }
-
-                stage('sonar-scanner') {
-                    when {
-                        branch "dev*"
-                    }
-                    steps { gradlew('sonarcube') }
-                }
+            }
+        }
+        stage ('Build and Report') {
+            steps ('Build'){
+                printHeader('ASSEMBLE')
+                gradlew('assemble')
             }
 
             post {
-                always {
-                    echo '====================== start POST-BUILD ======================'
-                    //junit '**/TEST-*.xml'
+                always{
+                    withChecks("Tests"){
+                        junitReport()
+                    }
+                    script {
+                        printHeader("HTML publisher")
+                        publishHtmlReport()
+                        printHeader('ALLUR report')
+                        allureReport()
+                    }
                 }
             }
         }
-
-        stage ('PR task') {
+        stage('Code Analysis') {
+            steps {
+                printHeader('SONARQUBE')
+                withSonarQubeEnv(credentialsId: 'SONARQUBE_TOKEN_LH', installationName: 'Sonar Local') {
+                    gradlew('sonarqube')
+                }
+            }
+        }
+        stage('Quality Gate') {
+            options {
+                timeout(time: 1, unit: 'MINUTES')
+                retry(2)
+            }
+            steps {
+                printHeader('Wait Quality Gates callback')
+                waitForQualityGate abortPipeline: true
+            }
+        }
+        stage('PR task') {
             when {
                 branch 'PR-*'
             }
 
             steps {
-                echo 'Steps for PR'
+                printHeader('Pull Request')
             }
         }
-
     }
 }
 
+//Windows implementation uses "bat" command executor
+//Linux implementation uses "sh" command executor
+def continuePipeline(){
+    bat "exit 0"
+}
+
+
 def gradlew(String... args) {
     bat "./gradlew ${args.join(' ')} -s"
+}
+
+def junitReport() {
+    junit allowEmptyResults: true, testResults: '**/build/test-results/**/*.xml'
+}
+
+def printHeader(String arg) {
+    echo " ============================ Start $arg ============================ "
+}
+
+def publishHtmlReport() {
+    script {
+        publishHTML (target : [allowMissing: true,
+                               alwaysLinkToLastBuild: true,
+                               keepAll: true,
+                               reportDir: 'common/build/reports/tests',
+                               reportFiles: 'index.html',
+                               reportName: "Tests for common",
+                               reportTitles: "COMMON"])
+
+        publishHTML (target : [allowMissing: true,
+                               alwaysLinkToLastBuild: true,
+                               keepAll: true,
+                               reportDir: 'web-ui/build/reports/tests',
+                               reportFiles: 'index.html',
+                               reportName: "Tests for WEB-UI",
+                               reportTitles: "WEB-UI"])
+    }
+}
+
+def allureReport(){
+    script {
+        allure ([
+                includeProperties: false,
+                properties: [],
+                reportBuildPolicy: 'ALWAYS',
+                results : [[path: 'build/allure-results']]
+        ])
+    }
 }
