@@ -2,7 +2,6 @@ package com.epam.qa.learn.rp.ui.tests.model;
 
 import java.util.Objects;
 
-//TODO: use builder pattern
 public class User {
 
     public String username;

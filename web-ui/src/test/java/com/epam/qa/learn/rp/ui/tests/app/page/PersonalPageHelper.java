@@ -19,6 +19,6 @@ public class PersonalPageHelper extends RpSection {
     }
 
     public void logout() {
-        //TODO: not implemented method
+        //not implemented method
     }
 }

@@ -91,7 +91,6 @@ public class BrowserManager {
             String browser = properties.getCapabilities().getBrowserName();
             Path path = Paths.get(System.getProperty("user.dir"));
 
-            //TODO: Replace with Gradle API (Project.getRootProject().getName()
             if (!path.endsWith(ROOT_PROJECT_NAME)) {
                 path = path.getParent();
             }
