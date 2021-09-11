@@ -1,0 +1,35 @@
+version: "3"
+services:
+    hub:
+        container_name: selenium-hub
+        image: selenium/hub
+        ports:
+            - 4444:4444
+    chrome:
+        container_name: selenium-chrome
+        image: selenium/node-chrome
+        depends_on:
+            - hub
+        environment:
+            - HUB_HOST=hub
+    firefox:
+        container_name: selenium-firefox
+        image: selenium/node-firefox
+        depends_on:
+            - hub
+        environment:
+            - HUB_HOST=hub
+    opera:
+        container_name: selenium-opera
+        image: selenium/node-opera
+        depends_on:
+            - hub
+        environment:
+            - HUB_HOST=hub
+    edge:
+        container_name: selenium-edge
+        image: selenium/node-edge:94.0
+        depends_on:
+            - hub
+        environment:
+            - HUB_HOST=hub
