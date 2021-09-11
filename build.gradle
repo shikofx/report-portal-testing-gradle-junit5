@@ -45,7 +45,6 @@ subprojects {
         options.encoding = "$encoding"
     }
 
-
     dependencies {
         testImplementation group: 'org.junit.jupiter',
                            name: 'junit-jupiter-params',
@@ -89,13 +88,17 @@ subprojects {
 
     }
 
-    def webtests = tasks.register('webtests', Test).configure() {
+    tasks.register('webtests', Test).configure() {
         useJUnitPlatform {
             includeTags "ui"
         }
+
+        systemProperty 'browser', System.getProperty('browser')
+
+        systemProperty 'targetOS', System.getProperty('targetOS')
     }
 
-    def unittests = tasks.register('unittests', Test).configure() {
+    tasks.register('unittests', Test).configure() {
         useJUnitPlatform {
             includeTags "unit"
         }
@@ -124,7 +127,7 @@ allprojects {
 test {
     useJUnitPlatform();
     testLogging.showStandardStreams = true
-    reports.junitXml.destination=file("build/test-results")
+    reports.junitXml.destination = file("build/test-results")
 }
 
 project.tasks["sonarqube"].dependsOn test

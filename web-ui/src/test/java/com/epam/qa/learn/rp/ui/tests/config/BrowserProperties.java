@@ -25,6 +25,7 @@ public class BrowserProperties {
     private final String username;
     private final String password;
     private final String driverFolder;
+    private final String targetOS;
 
     public BrowserProperties() {
         mainPageUrl = loadProperty("site.url");
@@ -35,6 +36,7 @@ public class BrowserProperties {
         String browserCapabilitiesFileName = loadProperty("browserCapabilities");
         browserCapabilities = loadCapabilities(browserCapabilitiesFileName);
         driverFolder = loadProperty("drivers.folder");
+        targetOS = loadProperty("targetOS");
     }
 
 
