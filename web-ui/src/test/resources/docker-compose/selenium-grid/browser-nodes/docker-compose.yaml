@@ -1,0 +1,22 @@
+version: "3"
+services:
+    chrome:
+        container_name: selenium-chrome
+        image: selenium/node-chrome
+        environment:
+            - HUB_HOST=100.64.8.174
+    firefox:
+        container_name: selenium-firefox
+        image: selenium/node-firefox
+        environment:
+            - HUB_HOST=100.64.8.174
+    opera:
+        container_name: selenium-opera
+        image: selenium/node-opera
+        environment:
+            - HUB_HOST=100.64.8.174
+    edge:
+        container_name: selenium-edge
+        image: selenium/node-edge:94.0
+        environment:
+            - HUB_HOST=100.64.8.174

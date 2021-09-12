@@ -29,6 +29,24 @@ wrapper {
     gradleVersion = "$gradleWrapperVersion"
 }
 
+allprojects {
+    tasks.withType(Test).configureEach() {
+        useJUnitPlatform()
+        if(System.getProperty('browser') != null) {
+            systemProperty 'browser', System.getProperty('browser')
+        } else {
+            System.setProperty('browser', 'chrome')
+        }
+        if(System.getProperty('grid') != null) {
+            systemProperty 'grid', System.getProperty('grid')
+        } else {
+            System.setProperty('grid', 'false')
+        }
+
+        systemProperty 'targetOS', System.getProperty('targetOS')
+    }
+}
+
 subprojects {
     apply plugin: 'java'
     apply plugin: 'idea'
@@ -93,9 +111,6 @@ subprojects {
             includeTags "ui"
         }
 
-        systemProperty 'browser', System.getProperty('browser')
-
-        systemProperty 'targetOS', System.getProperty('targetOS')
     }
 
     tasks.register('unittests', Test).configure() {

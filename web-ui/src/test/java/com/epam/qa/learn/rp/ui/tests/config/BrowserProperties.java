@@ -18,25 +18,26 @@ public class BrowserProperties {
     private static final String DEBUG_PROPERTIES = "/properties/application-debug.properties";
     private static final String CURRENT_PROPERTIES = "/properties/application.properties";
 
-    private final String platform;
-    private final Capabilities browserCapabilities;
     private final String mainPageUrl;
-    private final Optional<String> gridHubUrl;
     private final String username;
     private final String password;
-    private final String driverFolder;
-    private final String targetOS;
+    private final String grid;
+    private final String browser;
+
+    public String getGrid() {
+        return grid;
+    }
+
+    public String getBrowser() {
+        return browser;
+    }
 
     public BrowserProperties() {
         mainPageUrl = loadProperty("site.url");
-        gridHubUrl = Optional.ofNullable(loadProperty("grid.url"));
         username = loadProperty("account.username");
         password = loadProperty("account.password");
-        platform = loadProperty("platform.name");
-        String browserCapabilitiesFileName = loadProperty("browserCapabilities");
-        browserCapabilities = loadCapabilities(browserCapabilitiesFileName);
-        driverFolder = loadProperty("drivers.folder");
-        targetOS = loadProperty("targetOS");
+        browser = loadProperty("browser");
+        grid = loadProperty("grid");
     }
 
 
@@ -86,19 +87,4 @@ public class BrowserProperties {
     public User getDefaultUser() {
         return new User(username, password);
     }
-
-    public String getPlatform() {
-        return platform;
-    }
-
-    public Capabilities getCapabilities() {
-        return browserCapabilities;
-    }
-
-    public Optional<String> getGridHubUrl() {
-        return gridHubUrl;
-    }
-
-    public String getDriverFolder(){ return driverFolder; }
-
 }

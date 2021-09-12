@@ -1,7 +1,10 @@
 package com.epam.qa.learn.rp.ui.tests.app.browser;
 
+import static org.openqa.selenium.remote.BrowserType.CHROME;
 import static org.openqa.selenium.remote.BrowserType.EDGE;
 import static org.openqa.selenium.remote.BrowserType.FIREFOX;
+import static org.openqa.selenium.remote.BrowserType.OPERA;
+import static org.openqa.selenium.remote.BrowserType.OPERA_BLINK;
 
 import com.epam.qa.learn.rp.ui.tests.config.BrowserProperties;
 import org.openqa.selenium.Platform;
@@ -9,6 +12,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.opera.OperaDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -28,14 +32,12 @@ public class BrowserManager {
     private final BrowserProperties properties;
     private static final ThreadLocal<Optional<BrowserManager>> instance =
         ThreadLocal.withInitial(Optional::empty);
-    private final WebDriver driver;
+    private WebDriver driver;
     private final WebDriverWait driverWait;
 
     private BrowserManager() {
         properties = new BrowserProperties();
-        LOGGER.info(String.format("Open ner browser instance: type = '%s'",
-                                  getProperties().getCapabilities().getBrowserName()));
-        driver = createDriver();
+        driver = initDriver();
         driverWait = new WebDriverWait(driver, 30);
     }
 
@@ -63,26 +65,46 @@ public class BrowserManager {
         instance.set(Optional.empty());
     }
 
-    private WebDriver createDriver() {
-        if (properties.getGridHubUrl().isPresent() && !properties.getGridHubUrl().get().equals("")) {
-            DesiredCapabilities remoteCapabilities = new DesiredCapabilities();
-            remoteCapabilities.setBrowserName(properties.getCapabilities().getBrowserName());
-            remoteCapabilities.setPlatform(Platform.fromString(properties.getPlatform()));
+    private WebDriver initDriver() {
+        String gridAvailable = System.getProperty("grid");
+
+        if(gridAvailable != null && gridAvailable.equals("true")){
+            String host = "localhost";
+            if(System.getProperty("HUB_HOST") != null) {
+                host = System.getProperty("HUB_HOST");
+            }
+            String completeUrl = "http://" + host + ":4444/wd/hub";
+
+            DesiredCapabilities dCapabilities = DesiredCapabilities.chrome();
+            if(System.getProperty("browser") != null) {
+                switch (System.getProperty("browser")) {
+                    case FIREFOX:
+                        dCapabilities = DesiredCapabilities.firefox(); break;
+                    case EDGE:
+                        dCapabilities = DesiredCapabilities.edge(); break;
+                }
+            }
+
             try {
-                return new RemoteWebDriver(new URL(properties.getGridHubUrl().get()), remoteCapabilities);
+                return new RemoteWebDriver(new URL(completeUrl), dCapabilities);
             } catch (MalformedURLException e) {
                 LOGGER.error(e.getLocalizedMessage());
             }
-        } else {
-            String browser = System.getProperty("browser");
-            switch (browser) {
-                case FIREFOX:
-                    return new FirefoxDriver();
-                case EDGE:
-                    return new EdgeDriver();
-                default:
-                    return new ChromeDriver();
-            }
+        }
+        String browser = System.getProperty("browser");
+
+        if(browser == null) {
+            browser = "chrome";
+        }
+
+        if (browser.equals(FIREFOX)) {
+            return new FirefoxDriver();
+        } else if (browser.equals(EDGE)) {
+            return new EdgeDriver();
+        } else if (browser.equals(OPERA)) {
+            return new OperaDriver();
+        } else if (browser.equals(CHROME)){
+            return new ChromeDriver();
         }
         throw new ExceptionInInitializerError("Could not find competitive driver");
     }
