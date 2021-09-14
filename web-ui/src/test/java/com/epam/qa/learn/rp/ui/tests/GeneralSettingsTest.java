@@ -1,4 +1,4 @@
-package com.epam.qa.learn.rp.ui.tests.tests;
+package com.epam.qa.learn.rp.ui.tests;
 
 import com.epam.qa.learn.rp.ui.tests.tests.annotations.RpUITests;
 import com.epam.qa.learn.rp.ui.tests.tests.base.PersonalPageTestBase;

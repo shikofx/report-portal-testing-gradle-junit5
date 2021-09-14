@@ -4,10 +4,8 @@ import static org.openqa.selenium.remote.BrowserType.CHROME;
 import static org.openqa.selenium.remote.BrowserType.EDGE;
 import static org.openqa.selenium.remote.BrowserType.FIREFOX;
 import static org.openqa.selenium.remote.BrowserType.OPERA;
-import static org.openqa.selenium.remote.BrowserType.OPERA_BLINK;
 
 import com.epam.qa.learn.rp.ui.tests.config.BrowserProperties;
-import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
@@ -27,7 +25,6 @@ public class BrowserManager {
 
     public static final int IMPLICITLY_WAIT = 5; //seconds
     private static final Logger LOGGER = LoggerFactory.getLogger(BrowserManager.class);
-    public static final String ROOT_PROJECT_NAME = "report-portal-taf-java-junit5";
 
     private final BrowserProperties properties;
     private static final ThreadLocal<Optional<BrowserManager>> instance =
@@ -68,20 +65,22 @@ public class BrowserManager {
     private WebDriver initDriver() {
         String gridAvailable = System.getProperty("grid");
 
-        if(gridAvailable != null && gridAvailable.equals("true")){
+        if (gridAvailable != null && gridAvailable.equals("true")) {
             String host = "localhost";
-            if(System.getProperty("HUB_HOST") != null) {
+            if (System.getProperty("HUB_HOST") != null) {
                 host = System.getProperty("HUB_HOST");
             }
             String completeUrl = "http://" + host + ":4444/wd/hub";
 
             DesiredCapabilities dCapabilities = DesiredCapabilities.chrome();
-            if(System.getProperty("browser") != null) {
+            if (System.getProperty("browser") != null) {
                 switch (System.getProperty("browser")) {
                     case FIREFOX:
-                        dCapabilities = DesiredCapabilities.firefox(); break;
+                        dCapabilities = DesiredCapabilities.firefox();
+                        break;
                     case EDGE:
-                        dCapabilities = DesiredCapabilities.edge(); break;
+                        dCapabilities = DesiredCapabilities.edge();
+                        break;
                 }
             }
 
@@ -93,7 +92,7 @@ public class BrowserManager {
         }
         String browser = System.getProperty("browser");
 
-        if(browser == null) {
+        if (browser == null) {
             browser = "chrome";
         }
 
@@ -103,7 +102,7 @@ public class BrowserManager {
             return new EdgeDriver();
         } else if (browser.equals(OPERA)) {
             return new OperaDriver();
-        } else if (browser.equals(CHROME)){
+        } else if (browser.equals(CHROME)) {
             return new ChromeDriver();
         }
         throw new ExceptionInInitializerError("Could not find competitive driver");

@@ -17,3 +17,7 @@ dependencies {
 
     implementation project(":common")
 }
+
+project.description = "UI tests for report portal"
+project.archivesBaseName = "$applicationName" + '-ui-tests'
+project.version = "$applicationVersion"

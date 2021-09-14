@@ -8,7 +8,7 @@ import org.junit.platform.launcher.core.LauncherDiscoveryRequestBuilder;
 import org.junit.platform.launcher.core.LauncherFactory;
 import org.junit.platform.launcher.listeners.SummaryGeneratingListener;
 
-public class RunWebUITests {
+public class RunTestWebUI {
 
     public static void main(String[] args) {
         Launcher launcher = LauncherFactory.create();
@@ -20,6 +20,6 @@ public class RunWebUITests {
             .build();
         launcher.execute(request, summaryGeneratingListener);
 
-        RpLogger.sendLaunch(RunWebUITests.class, "info", summaryGeneratingListener.getSummary().toString());
+        RpLogger.sendLaunch(RunTestWebUI.class, "info", summaryGeneratingListener.getSummary().toString());
     }
 }

@@ -3,8 +3,17 @@ plugins {
 }
 
 group 'com.epam.mentoring.program'
-version '1.0'
 
 repositories {
     mavenCentral()
 }
+
+project.description = "UI tests for report portal"
+project.archivesBaseName = "$applicationName" + '-common'
+project.version = "$applicationVersion"
+//project.jar {
+//    // Will include every single one of your dependencies, project or not
+//    from {
+//        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+//    }
+//}

@@ -7,7 +7,6 @@ import com.epam.qa.learn.rp.ui.tests.app.element.text.fields.PasswordField;
 import com.epam.qa.learn.rp.ui.tests.app.element.text.fields.UsernameField;
 import com.epam.qa.learn.rp.ui.tests.app.section.RpSection;
 import com.epam.qa.learn.rp.ui.tests.model.User;
-import io.qameta.allure.Issues;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.Step;

@@ -1,4 +1,4 @@
-package com.epam.qa.learn.rp.ui.tests.tests;
+package com.epam.qa.learn.rp.ui.tests;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -12,7 +12,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 
 @RpUITests
-class LoginTests extends TestBase {
+class LoginTest extends TestBase {
 
     @ParameterizedTest
     @EnumSource
