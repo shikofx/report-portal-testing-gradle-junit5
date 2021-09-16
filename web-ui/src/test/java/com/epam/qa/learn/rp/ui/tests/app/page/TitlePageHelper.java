@@ -7,10 +7,10 @@ import com.epam.qa.learn.rp.ui.tests.app.element.text.fields.PasswordField;
 import com.epam.qa.learn.rp.ui.tests.app.element.text.fields.UsernameField;
 import com.epam.qa.learn.rp.ui.tests.app.section.RpSection;
 import com.epam.qa.learn.rp.ui.tests.model.User;
-import io.qameta.allure.Severity;
-import io.qameta.allure.SeverityLevel;
-import io.qameta.allure.Step;
-import io.qameta.allure.TmsLink;
+//import io.qameta.allure.Severity;
+//import io.qameta.allure.SeverityLevel;
+//import io.qameta.allure.Step;
+//import io.qameta.allure.TmsLink;
 
 public class TitlePageHelper extends RpSection {
 
@@ -25,9 +25,6 @@ public class TitlePageHelper extends RpSection {
         submitButton = new LoginButton(getImplicitlyWait());
     }
 
-    @TmsLink("test-1/parametrized")
-    @Step("Sign in to the Report Portal")
-    @Severity(SeverityLevel.CRITICAL)
     public boolean login(User user) {
         usernameInput.setText(user.getUsername());
         passwordInput.setText(user.getPassword());

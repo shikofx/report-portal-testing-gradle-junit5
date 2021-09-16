@@ -25,6 +25,8 @@ public class BrowserManager {
 
     public static final int IMPLICITLY_WAIT = 5; //seconds
     private static final Logger LOGGER = LoggerFactory.getLogger(BrowserManager.class);
+    public static final String HUB_HOST = "hub-host";
+    public static final String BROWSER = "browser";
 
     private final BrowserProperties properties;
     private static final ThreadLocal<Optional<BrowserManager>> instance =
@@ -64,17 +66,15 @@ public class BrowserManager {
 
     private WebDriver initDriver() {
         String gridAvailable = System.getProperty("grid");
-
         if (gridAvailable != null && gridAvailable.equals("true")) {
             String host = "localhost";
-            if (System.getProperty("HUB_HOST") != null) {
-                host = System.getProperty("HUB_HOST");
+            if (System.getProperty(HUB_HOST) != null) {
+                host = System.getProperty(HUB_HOST);
             }
             String completeUrl = "http://" + host + ":4444/wd/hub";
-
             DesiredCapabilities dCapabilities = DesiredCapabilities.chrome();
-            if (System.getProperty("browser") != null) {
-                switch (System.getProperty("browser")) {
+            if (System.getProperty(BROWSER) != null) {
+                switch (System.getProperty(BROWSER)) {
                     case FIREFOX:
                         dCapabilities = DesiredCapabilities.firefox();
                         break;
@@ -90,8 +90,7 @@ public class BrowserManager {
                 LOGGER.error(e.getLocalizedMessage());
             }
         }
-        String browser = System.getProperty("browser");
-
+        String browser = System.getProperty(BROWSER);
         if (browser == null) {
             browser = "chrome";
         }

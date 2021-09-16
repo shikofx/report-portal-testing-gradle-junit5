@@ -2,7 +2,6 @@
 *.iml
 .git/
 .gradle
-gradle
 out/
 /out/
 build/

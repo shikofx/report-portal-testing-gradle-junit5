@@ -8,9 +8,9 @@ buildscript {
         }
     }
 
-    dependencies {
-        classpath "io.qameta.allure:allure-gradle:2.8.1"
-    }
+//    dependencies {
+//        classpath "io.qameta.allure:allure-gradle:2.8.1"
+//    }
 }
 
 plugins {
@@ -81,55 +81,13 @@ subprojects {
                            name: 'logger-java-logback',
                            version: "$reportPortalVersion"
 
-        testImplementation group: 'io.qameta.allure',
-                           name: 'allure-junit5',
-                           version: '2.14.0'
-
-        testRuntime group: 'org.aspectj',
-                    name: 'aspectjweaver',
-                    version: '1.9.7'
-    }
-
-    tasks.register("packageJars", Jar).configure() {
-        group = "jar"
-        manifest {
-            attributes(
-                    "Class-Path": configurations.compile.collect { it.getName() }.join(' ') +
-                                  configurations.testCompile.collect { it.getName() }.join(' ') +
-                                  configurations.testRuntime.files.collect { it.getName() }.join(' '))
-
-        }
-        from configurations.compile.collect { entry -> zipTree(entry) }
-        from configurations.testCompile.collect { entry -> zipTree(entry) }
-        from configurations.testRuntime.collect { entry -> zipTree(entry) }
-        from(sourceSets.test.output)
-    }
-
-    tasks.register('createJars', Copy).configure() {
-        group = 'jar'
-        from jar
-        from "$projectDir/../libs"
-        into "$projectDir/../build/libs"
-        dependsOn(packageJars)
-    }
-}
-
-tasks.register("package", Jar).configure() {
-    group = "jar"
-    manifest {
-        attributes(
-                "Class-Path": configurations.compile.collect { it.getName() }.join(' ') +
-                              configurations.testCompile.collect { it.getName() }.join(' ') +
-                              configurations.runtimeClasspath.files.collect { it.getName() }.join(' '))
-    }
-    from configurations.compile.collect { entry -> zipTree(entry) }
-    from configurations.testCompile.collect { entry -> zipTree(entry) }
-    from configurations.runtimeClasspath.files.collect { entry -> zipTree(entry) }
-}
-
-allprojects {
-    repositories {
-        mavenCentral()
+//        testImplementation group: 'io.qameta.allure',
+//                           name: 'allure-junit5',
+//                           version: '2.14.0'
+//
+//        testRuntime group: 'org.aspectj',
+//                    name: 'aspectjweaver',
+//                    version: '1.9.7'
     }
 
     tasks.withType(Test).configureEach() {
@@ -139,13 +97,24 @@ allprojects {
         } else {
             System.setProperty('browser', 'chrome')
         }
+
         if (System.getProperty('grid') != null) {
             systemProperty 'grid', System.getProperty('grid')
         } else {
             System.setProperty('grid', 'false')
         }
 
-        systemProperty 'targetOS', System.getProperty('targetOS')
+        if (System.getProperty('hub-host') != null) {
+            systemProperty 'hub-host', System.getProperty('hub-host')
+        } else {
+            System.setProperty('hub-host', 'false')
+        }
+
+        if (System.getProperty('target-os') != null) {
+            systemProperty 'target-os', System.getProperty('target-os')
+        } else {
+            System.setProperty('target-os', 'false')
+        }
 
         testLogging.showStandardStreams = true
         reports.junitXml.destination = file("build/test-results")
@@ -168,31 +137,45 @@ allprojects {
             excludeTags "ui"
         }
     }
-
-    sonarqube {
-        properties {
-            property "sonar.sourceEncoding", "UTF-8"
-        }
-    }
 }
 
-project.tasks["sonarqube"].dependsOn test
-
-sonarqube {
-    group = 'verification'
-    properties {
-        property "sonar.login", "ff56a59e4a48d3e2a1637bffa541b9f2c57fd662"
-    }
-}
-
-allure {
-    group = 'report'
-    version = "${allureReportPluginVersion}"  // Latest Allure Version
-    aspectjweaver = true
-    autoconfigure = true
-    useJUnit5() {
-        version = "${allureReportVersion}" // Latest Allure Version
+allprojects {
+    repositories {
+        mavenCentral()
     }
 
-    reportDir = file("$projectDir/build/reports/allure-report")
+//    sonarqube {
+//        properties {
+//            property "sonar.sourceEncoding", "UTF-8"
+//        }
+//    }
 }
+
+//project.tasks["sonarqube"].dependsOn test
+//
+//sonarqube {
+//    group = 'verification'
+//    properties {
+//        property "sonar.login", "ff56a59e4a48d3e2a1637bffa541b9f2c57fd662"
+//    }
+//}
+
+//allure {
+//    group = 'report'
+//    version = "${allureReportPluginVersion}"  // Latest Allure Version
+//    aspectjweaver = true
+//    autoconfigure = true
+//    useJUnit5() {
+//        version = "${allureReportVersion}" // Latest Allure Version
+//    }
+//
+//    reportDir = file("$projectDir/build/reports/allure-report")
+//}
+
+tasks.register('buildImage', Exec).configure(){
+    group('docker')
+    workingDir("$projectDir")
+    commandLine('docker', 'build', '.', '-t', "$applicationGroup/$applicationName:$applicationVersion")
+}
+
+
