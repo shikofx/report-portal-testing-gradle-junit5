@@ -1,9 +1,0 @@
-version: '1.0'
-
-services:
-    taf-reportportal:
-        image: ${SERVICE_GROUP}/${SERVICE_NAME}:${SERVICE_TAG}
-        ports:
-            - 4000:4000
-        environment:
-            - SELENIUM_PROFILE=${SELENIUM_PROFILE}

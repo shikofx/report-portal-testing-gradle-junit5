@@ -1,0 +1,10 @@
+version: "1.0"
+
+services:
+    rp-taf:
+        container_name: ${APP_NAME}
+        image: ${APP_GROUP}/${APP_NAME}:${APP_TAG}
+        environment:
+            - BROWSER=${BROWSER}
+            - HUB_HOST=${HUB_HOST}
+            - GRID=true

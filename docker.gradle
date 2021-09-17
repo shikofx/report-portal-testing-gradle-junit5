@@ -1,0 +1,48 @@
+tasks.register('imageBuild', Exec).configure(){
+    group('docker')
+    workingDir("$projectDir")
+    commandLine('docker', 'build', '-t', "$applicationGroup/$applicationName:$applicationVersion", '.')
+}
+
+tasks.register('imageRemove', Exec).configure(){
+    group('docker')
+    workingDir("$projectDir")
+    commandLine('docker', 'image', 'rm', "$applicationGroup/$applicationName:$applicationVersion")
+}
+
+tasks.register('composeGridUp', Exec) {
+    group('docker')
+    workingDir("$projectDir/.docker/selenium-grid/all-in-one")
+    commandLine('docker-compose', 'up', '-d')
+}
+
+tasks.register('composeGridDown', Exec) {
+    group('docker')
+    workingDir("$projectDir/.docker/selenium-grid/all-in-one")
+    commandLine('docker-compose', 'down')
+}
+
+tasks.register('composeGridStart', Exec) {
+    group('docker')
+    workingDir("$projectDir/.docker/selenium-grid/all-in-one")
+    commandLine('docker-compose', 'start')
+    dependsOn composeGridUp
+}
+
+
+tasks.register('composeGridStop', Exec) {
+    group('docker')
+    workingDir("$projectDir/.docker/selenium-grid/all-in-one")
+    commandLine('docker-compose', 'stop')
+}
+
+tasks.register('composeTafUp', Exec) {
+    group('docker')
+    workingDir("$projectDir")
+
+    environment << [ APP_GROUP: "$applicationGroup", APP_NAME: "$applicationName", APP_TAG: "$applicationVersion", BROWSER: System.getProperty('browser'), HUB_HOST: System.getProperty("hub-host") ]
+    commandLine('docker-compose', 'up', '-d')
+    dependsOn composeGridStart
+}
+
+//gradlew composeTafUp -Dbrowser=chrome -Dhub-host=100.64.8.174

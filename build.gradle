@@ -8,15 +8,16 @@ buildscript {
         }
     }
 
-//    dependencies {
-//        classpath "io.qameta.allure:allure-gradle:2.8.1"
-//    }
+   dependencies {
+       classpath "io.qameta.allure:allure-gradle:2.8.1"
+   }
 }
 
 plugins {
     id "org.sonarqube" version "$sonarqubePluginVersion"
     id "io.qameta.allure" version "2.8.1"
 }
+
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'org.sonarqube'
@@ -80,14 +81,6 @@ subprojects {
         testImplementation group: 'com.epam.reportportal',
                            name: 'logger-java-logback',
                            version: "$reportPortalVersion"
-
-//        testImplementation group: 'io.qameta.allure',
-//                           name: 'allure-junit5',
-//                           version: '2.14.0'
-//
-//        testRuntime group: 'org.aspectj',
-//                    name: 'aspectjweaver',
-//                    version: '1.9.7'
     }
 
     tasks.withType(Test).configureEach() {
@@ -144,38 +137,33 @@ allprojects {
         mavenCentral()
     }
 
-//    sonarqube {
-//        properties {
-//            property "sonar.sourceEncoding", "UTF-8"
-//        }
-//    }
+   sonarqube {
+       properties {
+           property "sonar.sourceEncoding", "UTF-8"
+       }
+   }
+
+    allure {
+        group = 'report'
+        version = "${allureReportPluginVersion}"  // Latest Allure Version
+        aspectjweaver = true
+        autoconfigure = true
+        useJUnit5() {
+            version = "${allureReportVersion}" // Latest Allure Version
+        }
+
+        reportDir = file("$projectDir/build/reports/allure-report")
+    }
 }
 
-//project.tasks["sonarqube"].dependsOn test
-//
-//sonarqube {
-//    group = 'verification'
-//    properties {
-//        property "sonar.login", "ff56a59e4a48d3e2a1637bffa541b9f2c57fd662"
-//    }
-//}
-
-//allure {
-//    group = 'report'
-//    version = "${allureReportPluginVersion}"  // Latest Allure Version
-//    aspectjweaver = true
-//    autoconfigure = true
-//    useJUnit5() {
-//        version = "${allureReportVersion}" // Latest Allure Version
-//    }
-//
-//    reportDir = file("$projectDir/build/reports/allure-report")
-//}
-
-tasks.register('buildImage', Exec).configure(){
-    group('docker')
-    workingDir("$projectDir")
-    commandLine('docker', 'build', '.', '-t', "$applicationGroup/$applicationName:$applicationVersion")
+project.tasks["sonarqube"].dependsOn test
+sonarqube {
+    group = 'verification'
+    properties {
+        property "sonar.login", "ff56a59e4a48d3e2a1637bffa541b9f2c57fd662"
+    }
 }
+
+apply from: "docker.gradle"
 
 

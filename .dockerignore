@@ -6,4 +6,4 @@ out/
 /out/
 build/
 /build/
-Dockerfile
+.docker/Dockerfile
