@@ -18,7 +18,7 @@ pipeline {
     }
 
     triggers {
-        pollSCM('H/30 * * * *')
+        pollSCM('H/1 * * * *')
         githubPush()
     }
 
@@ -47,7 +47,7 @@ pipeline {
                     steps {
                         printHeader('end-to-end Tests')
                         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                            gradlew('webtests')
+                            gradlew('composeTafUp -Dbrowser=chrome -Dhub_host="100.64.8.174"')
                             continuePipeline()
                         }
                     }

@@ -11,17 +11,22 @@ ADD    ../gradle    $APP_HOME/gradle
 RUN     ./gradlew --version
 
 # copy project web-ui build files
-ADD    ../build.gradle    settings.gradle     gradle.properties   $APP_HOME
+ADD    ../build.gradle    settings.gradle     gradle.properties   docker.gradle $APP_HOME
 ADD    ../web-ui                 $APP_HOME/web-ui
 ADD    ../common                 $APP_HOME/common
 
 ## download dependencies and compile test classes
-RUN ./gradlew testClasses assemble
+RUN ./gradlew testClasses
+RUN ./gradlew assemble
 
-ENTRYPOINT /usr/app/gradlew :web-ui:test -Dbrowser=$BROWSER -Dgrid=$GRID -Dhub-host=$HUB_HOST && allureReport
-# docker run -it --rm -e BROWSER=opera --env GRID=true --env HUB_HOST=100.64.8.174 -v D:\projects\pkt-academy\build:usr\app\build --name rp-taf shikofx/rp-taf
+CMD /usr/app/gradlew :web-ui:webtests -Dbrowser=$BROWSER -Dgrid=$GRID -Dhub-host=$HUB_HOST
+
+# docker image rm pkt/rp-taf:1.1
+# docker run -it -e BROWSER=opera --env GRID=true --env HUB_HOST=100.64.8.174 --name rp-taf pkt/rp-taf:1.1
+# docker run -ti --rm --entrypoint=/bin/bash -e BROWSER=opera --env GRID=true --env HUB_HOST=100.64.8.174 --name rp-taf pkt/rp-taf:1.1
+# docker run -ti --rm --entrypoint=/bin/bash -e BROWSER=opera --env GRID=true --env HUB_HOST=100.64.8.174 -v D:/app/build:/usr/app/build -v D:/app/common/build:/usr/app/common/build -v D:/app/web-ui/build:/usr/app/web-ui/build --name rp-taf pkt/rp-taf:1.1
+
 # FROM alpine
-
 # COPY --from=builder usr/local/openjdk-11 /java
 # ENV JAVA_HOME=/java
 # COPY --from=builder usr/app usr/app

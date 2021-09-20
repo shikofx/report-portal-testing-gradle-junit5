@@ -8,3 +8,7 @@ services:
             - BROWSER=${BROWSER}
             - HUB_HOST=${HUB_HOST}
             - GRID=true
+        volumes:
+            - ./build:/usr/app/build
+            - ./web-ui/build:/usr/app/web-ui/build
+            
