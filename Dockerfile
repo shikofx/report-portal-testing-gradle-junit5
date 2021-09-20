@@ -5,15 +5,15 @@ ENV APP_HOME=/usr/app
 WORKDIR $APP_HOME
 
 # copy gradle only files and download grale
-ADD    ../gradlew   $APP_HOME
-ADD    ../gradle    $APP_HOME/gradle
+ADD    ./gradlew   $APP_HOME
+ADD    ./gradle/    $APP_HOME/gradle
 
 RUN     ./gradlew --version
 
 # copy project web-ui build files
-ADD    ../build.gradle    settings.gradle     gradle.properties   docker.gradle $APP_HOME
-ADD    ../web-ui                 $APP_HOME/web-ui
-ADD    ../common                 $APP_HOME/common
+ADD    ./build.gradle    settings.gradle     gradle.properties   docker.gradle $APP_HOME
+ADD    ./web-ui                 $APP_HOME/web-ui
+ADD    ./common                 $APP_HOME/common
 
 ## download dependencies and compile test classes
 RUN ./gradlew testClasses
